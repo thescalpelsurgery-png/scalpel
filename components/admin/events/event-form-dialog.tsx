@@ -1,0 +1,400 @@
+"use client"
+
+import type React from "react"
+import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
+import type { Event } from "@/lib/types"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Loader2, Upload, X } from "lucide-react"
+
+interface EventFormDialogProps {
+  open: boolean
+  event: Event | null
+}
+
+export function EventFormDialog({ open, event }: EventFormDialogProps) {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const [imageType, setImageType] = useState<"url" | "upload">("url")
+  const [uploadFile, setUploadFile] = useState<File | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    content: "",
+    date: "",
+    time: "",
+    end_date: "",
+    location: "",
+    type: "",
+    image_url: "",
+    capacity: "",
+    registration_link: "",
+    is_featured: false,
+    is_past: false,
+  })
+
+  useEffect(() => {
+    if (event) {
+      setFormData({
+        title: event.title,
+        description: event.description,
+        content: event.content || "",
+        date: event.date,
+        time: event.time || "",
+        end_date: event.end_date || "",
+        location: event.location,
+        type: event.type,
+        image_url: event.image_url || "",
+        capacity: event.capacity?.toString() || "",
+        registration_link: event.registration_link || "",
+        is_featured: event.is_featured,
+        is_past: event.is_past,
+      })
+      setImageType("url")
+    } else {
+      setFormData({
+        title: "",
+        description: "",
+        content: "",
+        date: "",
+        time: "",
+        end_date: "",
+        location: "",
+        type: "",
+        image_url: "",
+        capacity: "",
+        registration_link: "",
+        is_featured: false,
+        is_past: false,
+      })
+      setImageType("url")
+      setUploadFile(null)
+    }
+  }, [event])
+
+  const handleClose = () => {
+    router.push("/admin/events")
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadFile(e.target.files[0])
+    }
+  }
+
+  const handleImageUpload = async (file: File): Promise<string> => {
+    const supabase = createClient()
+    const fileExt = file.name.split(".").pop()
+    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`
+    const filePath = `events/${fileName}`
+
+    const { error: uploadError } = await supabase.storage.from("scalpel").upload(filePath, file)
+
+    if (uploadError) {
+      throw uploadError
+    }
+
+    const { data } = supabase.storage.from("scalpel").getPublicUrl(filePath)
+    return data.publicUrl
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      const supabase = createClient()
+      let finalImageUrl = formData.image_url
+
+      if (imageType === "upload" && uploadFile) {
+        finalImageUrl = await handleImageUpload(uploadFile)
+      }
+
+      const data = {
+        title: formData.title,
+        description: formData.description,
+        content: formData.content || null,
+        date: formData.date,
+        time: formData.time || null,
+        end_date: formData.end_date || null,
+        location: formData.location,
+        type: formData.type as Event["type"],
+        image_url: finalImageUrl || null,
+        capacity: formData.capacity ? Number.parseInt(formData.capacity) : null,
+        registration_link: formData.registration_link || null,
+        is_featured: formData.is_featured,
+        is_past: formData.is_past,
+        updated_at: new Date().toISOString(),
+      }
+
+      if (event) {
+        const { error: updateError } = await supabase.from("events").update(data).eq("id", event.id)
+        if (updateError) throw updateError
+      } else {
+        const { error: insertError } = await supabase.from("events").insert(data)
+        if (insertError) throw insertError
+      }
+
+      router.push("/admin/events")
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{event ? "Edit Event" : "Create New Event"}</DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Event Title *</Label>
+            <Input
+              id="title"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="type">Event Type *</Label>
+              <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="conference">Conference</SelectItem>
+                  <SelectItem value="workshop">Workshop</SelectItem>
+                  <SelectItem value="seminar">Seminar</SelectItem>
+                  <SelectItem value="webinar">Webinar</SelectItem>
+                  <SelectItem value="training">Training</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="location">Location *</Label>
+              <Input
+                id="location"
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="date">Start Date *</Label>
+              <Input
+                id="date"
+                type="date"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="end_date">End Date</Label>
+              <Input
+                id="end_date"
+                type="date"
+                value={formData.end_date}
+                onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="time">Time</Label>
+              <Input
+                id="time"
+                value={formData.time}
+                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                placeholder="e.g., 9:00 AM - 5:00 PM"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Short Description *</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={2}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="content">Full Content</Label>
+            <Textarea
+              id="content"
+              value={formData.content}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+              rows={4}
+              placeholder="Detailed event description..."
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="capacity">Capacity</Label>
+              <Input
+                id="capacity"
+                type="number"
+                value={formData.capacity}
+                onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                placeholder="Maximum attendees"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="registration_link">Registration Link</Label>
+              <Input
+                id="registration_link"
+                type="url"
+                value={formData.registration_link}
+                onChange={(e) => setFormData({ ...formData, registration_link: e.target.value })}
+                placeholder="https://..."
+              />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <Label>Event Image</Label>
+            <RadioGroup
+              value={imageType}
+              onValueChange={(value) => setImageType(value as "url" | "upload")}
+              className="flex gap-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="url" id="img-url" />
+                <Label htmlFor="img-url">Image URL</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="upload" id="img-upload" />
+                <Label htmlFor="img-upload">Upload Image</Label>
+              </div>
+            </RadioGroup>
+
+            {imageType === "url" ? (
+              <Input
+                id="image_url"
+                type="url"
+                value={formData.image_url}
+                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                placeholder="https://..."
+              />
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Select Image
+                  </Button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  {uploadFile && (
+                    <div className="flex items-center gap-2 text-sm text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                      <span>{uploadFile.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUploadFile(null)
+                          if (fileInputRef.current) fileInputRef.current.value = ""
+                        }}
+                        className="text-slate-400 hover:text-slate-600"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+                {event?.image_url && !uploadFile && (
+                  <p className="text-xs text-slate-500">
+                    Current image will be kept if no new file is uploaded.
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-6 pt-2">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_featured"
+                checked={formData.is_featured}
+                onCheckedChange={(checked) => setFormData({ ...formData, is_featured: checked as boolean })}
+              />
+              <Label htmlFor="is_featured" className="cursor-pointer">
+                Featured Event
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_past"
+                checked={formData.is_past}
+                onCheckedChange={(checked) => setFormData({ ...formData, is_past: checked as boolean })}
+              />
+              <Label htmlFor="is_past" className="cursor-pointer">
+                Mark as Past Event
+              </Label>
+            </div>
+          </div>
+
+          {error && <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg border border-red-100">{error}</div>}
+
+          <div className="flex justify-end gap-3 pt-4">
+            <Button type="button" variant="outline" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : event ? (
+                "Update Event"
+              ) : (
+                "Create Event"
+              )}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
