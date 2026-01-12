@@ -73,7 +73,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
     organizer: {
       "@type": "Organization",
       name: "Scalpel",
-      url: "https://scalpel.org",
+      url: "https://scalpelsurgery.org",
     },
     eventStatus: event.is_past ? "https://schema.org/EventScheduled" : "https://schema.org/EventScheduled", // Could be more precise if we had a status column
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", // Assuming offline for now

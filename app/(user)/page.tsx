@@ -12,8 +12,8 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Scalpel",
-    url: "https://scalpel.org",
-    logo: "https://scalpel.org/logo.png",
+    url: "https://scalpelsurgery.org",
+    logo: "https://scalpelsurgery.org/logo.png",
     description: "Join a comprehensive academic platform where interdisciplinary collaboration meets continuous professional development. Elevate your surgical expertise with evidence-based programs.",
     sameAs: [
       // Add social media links if known

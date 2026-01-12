@@ -74,12 +74,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       name: "Scalpel",
       logo: {
         "@type": "ImageObject",
-        url: "https://scalpel.org/logo.png",
+        url: "https://scalpelsurgery.org/logo.png",
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://scalpel.org/blog/${post.slug}`,
+      "@id": `https://scalpelsurgery.org/blog/${post.slug}`,
     },
   }
 

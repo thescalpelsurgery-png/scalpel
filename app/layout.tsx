@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://scalpel.org",
+    url: "https://scalpelsurgery.org",
     siteName: "Scalpel",
     images: [
       {
