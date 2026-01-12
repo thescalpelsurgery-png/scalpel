@@ -13,7 +13,7 @@ const teamMembers = [
     bio: "Visionary leader driving surgical excellence and training innovation.",
     linkedin: "#",
     email: "Dr.iltafsafi99@gmail.com",
-    orcid: "#",
+    orcid: "https://orcid.org/0000-0003-4985-603X",
 
   },
   {
