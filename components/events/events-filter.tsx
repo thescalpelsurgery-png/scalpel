@@ -63,7 +63,7 @@ export function EventsFilter() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <Button variant="outline" size="icon" className="h-10 w-10 sm:h-11 sm:w-11 bg-transparent shrink-0">
+            <Button variant="outline" size="icon" className="h-10 w-10 sm:h-11 sm:w-11 bg-transparent shrink-0 text-black">
               <SlidersHorizontal className="w-4 h-4" />
             </Button>
           </div>
@@ -80,7 +80,7 @@ export function EventsFilter() {
                   onClick={() => handleCategoryChange(category)}
                   className={cn(
                     "text-xs h-8 px-3",
-                    activeCategory === category ? "bg-primary text-white" : "hover:bg-primary/10 bg-transparent",
+                    activeCategory === category ? "bg-primary text-white" : "hover:bg-primary/10 bg-transparent text-black",
                   )}
                 >
                   {category}
@@ -91,7 +91,7 @@ export function EventsFilter() {
                   variant="outline"
                   size="sm"
                   onClick={() => setShowAllCategories(true)}
-                  className="text-xs h-8 px-3 bg-transparent"
+                  className="text-xs h-8 px-3 bg-transparent text-black"
                 >
                   +{categories.length - 3} more
                   <ChevronDown className="w-3 h-3 ml-1" />
@@ -109,7 +109,7 @@ export function EventsFilter() {
                   onClick={() => handleCategoryChange(category)}
                   className={cn(
                     "text-xs sm:text-sm h-8 sm:h-9 px-3 sm:px-4",
-                    activeCategory === category ? "bg-primary text-white" : "hover:bg-primary/10 bg-transparent",
+                    activeCategory === category ? "bg-primary text-white" : "hover:bg-primary/10 bg-transparent text-black",
                   )}
                 >
                   {category}

@@ -2,6 +2,7 @@ import { AboutHero } from "@/components/about/about-hero"
 import { MissionVision } from "@/components/about/mission-vision"
 import { TeamSection } from "@/components/about/team-section"
 import { Timeline } from "@/components/about/timeline"
+import { EducationalApproach } from "@/components/about/educational-approach"
 import { PartnersSection } from "@/components/about/partners-section"
 
 export const metadata = {
@@ -14,6 +15,7 @@ export default function AboutPage() {
     <>
       <AboutHero />
       <MissionVision />
+      <EducationalApproach />
       <Timeline />
       <TeamSection />
       <PartnersSection />

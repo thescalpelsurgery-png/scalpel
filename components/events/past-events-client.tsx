@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import Image from "next/image"
 import { PlayCircle, Calendar, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -45,17 +46,18 @@ export function PastEventsClient({ events }: { events: any[] }) {
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {events.map((event, index) => (
-                        <div
+                        <Link
                             key={event.id}
+                            href={`/events/${event.id}`}
                             className={cn(
-                                "group relative bg-slate-50 rounded-lg md:rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300",
+                                "group relative bg-slate-50 rounded-lg md:rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-grey",
                                 isVisible && "animate-fade-in-up",
                             )}
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
                             {/* Image */}
                             <div className="relative h-28 md:h-40">
-                                <Image src={event.image || "/placeholder.svg"} alt={event.title} fill className="object-cover" />
+                                <Image src={event.image_url || "/placeholder.svg"} alt={event.title} fill className="object-cover" />
                                 <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     {event.has_recording && <PlayCircle className="w-8 h-8 md:w-12 md:h-12 text-white" />}
                                 </div>
@@ -84,7 +86,7 @@ export function PastEventsClient({ events }: { events: any[] }) {
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

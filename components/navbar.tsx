@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
   { href: "/events", label: "Events" },
   { href: "/blog", label: "Blog" },
 ]
@@ -52,7 +51,7 @@ export function Navbar() {
       <header
         className={cn(
           "w-full z-50 transition-all duration-300",
-          isScrolled ? "fixed top-0 left-0 right-0 bg-primary/95 backdrop-blur-md shadow-lg" : "relative bg-primary",
+          isScrolled ? "fixed top-0 left-0 right-0 bg-white backdrop-blur-md shadow-lg" : "relative bg-white",
         )}
       >
         <div className="w-full flex justify-center">
@@ -70,7 +69,7 @@ export function Navbar() {
                     isScrolled ? "w-8 h-8 sm:w-9 sm:h-9" : "w-9 h-9 sm:w-11 sm:h-11",
                   )}
                 />
-                <span className="font-bold tracking-tight text-white text-base sm:text-lg lg:text-xl">SCALPEL</span>
+                <span className="font-bold tracking-tight text-black text-base sm:text-lg lg:text-xl">SCALPEL</span>
               </Link>
 
               {/* Desktop Navigation */}
@@ -79,7 +78,7 @@ export function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-sm font-medium text-white/90 hover:text-white px-3 xl:px-4 py-2 rounded-md hover:bg-white/10 transition-all duration-200"
+                    className="text-sm font-medium text-black/90 hover:text-primary px-3 xl:px-4 py-2 rounded-md hover:bg-white/10 transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -87,9 +86,9 @@ export function Navbar() {
               </div>
 
               <div className="hidden lg:flex items-center">
-                <Link href="/become-member">
+                <Link href="/about">
                   <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-white px-6">
-                    Become a Member
+                    About Us
                   </Button>
                 </Link>
               </div>
@@ -100,7 +99,7 @@ export function Navbar() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
+                {isMobileMenuOpen ? <X className="w-6 h-6 text-black" /> : <Menu className="w-6 h-6 text-black" />}
               </button>
             </nav>
           </div>
@@ -108,7 +107,7 @@ export function Navbar() {
 
         <div
           className={cn(
-            "lg:hidden fixed inset-0 top-14 sm:top-16 bg-white z-40 transition-all duration-300",
+            "lg:hidden fixed inset-0 top-14 sm:top-16 bg-white z-40 transition-all duration-300 ",
             isMobileMenuOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
               : "opacity-0 -translate-y-4 pointer-events-none",
@@ -129,9 +128,9 @@ export function Navbar() {
             </div>
 
             <div className="px-4 pt-4 pb-8 border-t border-slate-100">
-              <Link href="/become-member" onClick={() => setIsMobileMenuOpen(false)} className="block">
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="block">
                 <Button className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-white">
-                  Become a Member
+                  About Us
                 </Button>
               </Link>
             </div>

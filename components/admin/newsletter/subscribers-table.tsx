@@ -174,7 +174,7 @@ export function SubscribersTable({ subscribers }: SubscribersTableProps) {
                           )}
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent align="end" className="bg-white">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => toggleActive(subscriber.id, subscriber.is_active)}>

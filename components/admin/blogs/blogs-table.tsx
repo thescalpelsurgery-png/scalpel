@@ -123,8 +123,8 @@ export function BlogsTable({ blogs }: BlogsTableProps) {
                       : new Date(blog.created_at).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                    <DropdownMenu >
+                      <DropdownMenuTrigger asChild className="bg-white">
                         <Button variant="ghost" size="icon" disabled={isLoading === blog.id}>
                           {isLoading === blog.id ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -133,7 +133,7 @@ export function BlogsTable({ blogs }: BlogsTableProps) {
                           )}
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent align="end" className="bg-white">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => editBlog(blog.id)}>

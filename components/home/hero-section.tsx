@@ -28,16 +28,16 @@ export function HeroSection() {
   }, [])
 
   return (
-    <div className="w-full flex justify-center bg-gradient-to-br from-slate-900 via-primary/90 to-slate-900">
+    <div className="w-full flex justify-center bg-gradient-to-br from-background via-background/90 to-background">
       <section
         ref={heroRef}
-        className="relative w-full max-w-[1440px] overflow-hidden py-12 md:py-16 lg:py-20"
+        className="relative w-full overflow-hidden py-12 md:py-16 lg:py-20"
         style={{ ["--mouse-x" as string]: "0px", ["--mouse-y" as string]: "0px" }}
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div
-            className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-primary/20 blur-3xl animate-pulse"
+            className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-background/20 blur-3xl animate-pulse"
             style={{
               top: "10%",
               left: "10%",
@@ -74,7 +74,7 @@ export function HeroSection() {
 
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight text-balance">
                 Master Advanced{" "}
-                <span className="bg-clip-text bg-gradient-to-r from-secondary to-primary text-card-foreground opacity-65">
+                <span className="bg-clip-text text-secondary opacity-65">
                   Surgical Techniques
                 </span>{" "}
                 Through Expert-Led Education
@@ -86,23 +86,26 @@ export function HeroSection() {
               </p>
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 justify-center lg:justify-start">
-                <Link href="/become-member" className="w-full sm:w-auto">
+                <Link href="/events" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="hover:bg-primary/90 text-white px-6 md:px-8 group w-full sm:w-auto bg-secondary"
+                    className=" text-primary px-6 md:px-8 group w-full sm:w-auto bg-secondary"
                   >
-                    Become a Member
+                    View Events
                     <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white/30 text-white hover:bg-white/10 px-6 md:px-8 bg-transparent w-full sm:w-auto"
-                >
-                  <Play className="mr-2 w-4 h-4" />
-                  Watch Overview
-                </Button>
+                <Link href="/blog" className="w-fu ll sm:w-auto">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white/30 text-white hover:bg-white/10 px-6 md:px-8 bg-transparent w-full sm:w-auto"
+                  >
+                    Our Blogs
+                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+
+                  </Button>
+                </Link>
               </div>
             </div>
 
@@ -112,7 +115,7 @@ export function HeroSection() {
                 <div className="absolute top-4 right-0 md:top-10 md:right-0 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 animate-float z-20 shadow-xl hidden sm:block">
                   <div className="flex items-center gap-2 md:gap-3">
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                      <span className="text-white font-bold text-sm md:text-base">95%</span>
+                      <span className="text-white font-bold text-sm md:text-base">98%</span>
                     </div>
                     <div>
                       <div className="text-white font-semibold text-sm md:text-base">Success Rate</div>

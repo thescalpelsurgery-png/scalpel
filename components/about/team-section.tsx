@@ -2,33 +2,49 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { Linkedin, Twitter } from "lucide-react"
+import { Linkedin, Mail, ScrollText } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const teamMembers = [
   {
-    name: "Dr. Sarah Mitchell",
-    role: "President & Chief Medical Officer",
-    image: "/professional-female-surgeon-headshot-portrait.jpg",
-    bio: "Board-certified surgeon with 25+ years of experience in minimally invasive surgery.",
+    name: "Dr. Muhammad Iltaf",
+    role: "President",
+    image: "/iltaf.jpg",
+    bio: "Visionary leader driving surgical excellence and training innovation.",
+    linkedin: "#",
+    email: "Dr.iltafsafi99@gmail.com",
+    orcid: "#",
+
   },
   {
-    name: "Dr. James Chen",
-    role: "Director of Education",
-    image: "/professional-male-doctor-headshot-portrait-asian.jpg",
-    bio: "Pioneer in surgical simulation and virtual reality training methodologies.",
+    name: "Dr. Shahab Afridi",
+    role: "Director",
+    image: "/shahab.jpg",
+    bio: "Leading expert in surgical simulation and professional development.",
+    linkedin: "https://www.linkedin.com/in/shahabafridi915",
+    email: "shahab.afridi915@gmail.com",
+    orcid: "https://orcid.org/0009-0005-1217-7625",
+
   },
   {
-    name: "Dr. Emily Rodriguez",
-    role: "Head of Research",
-    image: "/professional-female-doctor-headshot-portrait-latin.jpg",
-    bio: "Leading researcher in robotic surgery and surgical outcomes optimization.",
+    name: "Sarmad Nazir",
+    role: "Finance & Strategy Executive",
+    image: "/sarmad.png",
+    bio: "Managing strategy and growth for a national network of surgical excellence.",
+    linkedin: "https://www.linkedin.com/in/sarmadnazir",
+    email: "sarmadnazir49@gmail.com",
+    orcid: "https://orcid.org/0009-0005-3250-7417",
+
   },
   {
-    name: "Dr. Michael Thompson",
-    role: "Director of International Programs",
-    image: "/professional-male-surgeon-headshot-portrait.jpg",
-    bio: "Expert in global health initiatives and cross-cultural surgical education.",
+    name: "Hira Shehzad",
+    role: "Media & PR Executive",
+    image: "/girl.png",
+    bio: "Expert in media relations and public awareness for surgical education.",
+    linkedin: "https://www.linkedin.com/in/hirashehzad",
+    email: "xhira.shahzadx@gmail.com",
+    orcid: "https://orcid.org/0009-0000-5570-3094",
+
   },
 ]
 
@@ -98,18 +114,34 @@ export function TeamSection() {
 
               {/* Social Links */}
               <div className="flex justify-center gap-2 md:gap-3">
-                <a
-                  href="#"
-                  className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-600 flex items-center justify-center transition-colors"
-                >
-                  <Linkedin className="w-3 h-3 md:w-4 md:h-4" />
-                </a>
-                <a
-                  href="#"
-                  className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-600 flex items-center justify-center transition-colors"
-                >
-                  <Twitter className="w-3 h-3 md:w-4 md:h-4" />
-                </a>
+                {member.linkedin && member.linkedin !== "#" && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-600 flex items-center justify-center transition-colors"
+                  >
+                    <Linkedin className="w-3 h-3 md:w-4 md:h-4" />
+                  </a>
+                )}
+                {member.orcid && member.orcid !== "#" && (
+                  <a
+                    href={member.orcid}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-600 flex items-center justify-center transition-colors"
+                  >
+                    <ScrollText className="w-3 h-3 md:w-4 md:h-4" />
+                  </a>
+                )}
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-primary hover:text-white text-slate-600 flex items-center justify-center transition-colors"
+                  >
+                    <Mail className="w-3 h-3 md:w-4 md:h-4" />
+                  </a>
+                )}
               </div>
             </div>
           ))}

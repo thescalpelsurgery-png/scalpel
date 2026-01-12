@@ -24,11 +24,10 @@ export function AboutHero() {
               About Us
             </span>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 text-balance px-2">
-              Advancing Surgical Excellence Through Education
+              SCALPEL: Bridging the Gap in Surgical Training
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto text-center px-2">
-              Founded with a vision to transform surgical education, Scalpel brings together leading surgeons,
-              researchers, and healthcare professionals to shape the future of surgical practice.
+              Student-led and surgeon-supervised. We provide the hands-on, simulation-based training necessary to bridge the divide between medical school and the operating room.
             </p>
           </div>
 

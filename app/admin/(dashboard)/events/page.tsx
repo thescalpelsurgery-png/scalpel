@@ -1,3 +1,4 @@
+
 import { createClient } from "@/lib/supabase/server"
 import { EventsHeader } from "@/components/admin/events/events-header"
 import { EventsTable } from "@/components/admin/events/events-table"

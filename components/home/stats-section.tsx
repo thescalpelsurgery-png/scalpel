@@ -5,10 +5,10 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 const stats = [
-  { value: 5000, suffix: "+", label: "Active Members", description: "Surgeons and healthcare professionals" },
-  { value: 200, suffix: "+", label: "Workshops Conducted", description: "Hands-on training sessions" },
-  { value: 50, suffix: "+", label: "Partner Institutions", description: "Worldwide collaborations" },
-  { value: 95, suffix: "%", label: "Satisfaction Rate", description: "From our participants" },
+  { value: 100, suffix: "+", label: "Active Members", description: "Surgeons and healthcare professionals" },
+  { value: 15, suffix: "+", label: "Workshops Conducted", description: "Hands-on training sessions" },
+  { value: 8, suffix: "+", label: "Partner Institutions", description: "Worldwide collaborations" },
+  { value: 98, suffix: "%", label: "Satisfaction Rate", description: "From our participants" },
 ]
 
 function AnimatedCounter({ value, suffix, isVisible }: { value: number; suffix: string; isVisible: boolean }) {

@@ -5,12 +5,12 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 const partners = [
-  { name: "Johns Hopkins Medicine", logo: "/johns-hopkins-medicine-hospital-logo.jpg" },
-  { name: "Mayo Clinic", logo: "/mayo-clinic-medical-center-logo.jpg" },
-  { name: "Cleveland Clinic", logo: "/cleveland-clinic-hospital-logo.jpg" },
-  { name: "Stanford Health", logo: "/stanford-health-care-medical-logo.jpg" },
-  { name: "Mass General", logo: "/placeholder.svg?height=80&width=200" },
-  { name: "UCLA Health", logo: "/placeholder.svg?height=80&width=200" },
+  { name: "Ayub Teaching Hospital (ATH)", logo: "/ath.jpeg" },
+  { name: "College of Physicians and Surgeons Pakistan (CPSP)", logo: "/cps.png" },
+  { name: "Pakistan Obesity and Metabolic Surgery Society (POMSS)", logo: "/poms.png" },
+  { name: "⁠Women Medical College (WMC), Abbottabad", logo: "/wmc.jpg" },
+  { name: "⁠Pakistan Urogynecologists Association (PUGA)", logo: "/puga.png" },
+  { name: "Biomedical Research and Innovation Network (BRAIN)", logo: "/brain.png" },
 ]
 
 export function PartnersSection() {
@@ -50,22 +50,22 @@ export function PartnersSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-8 items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 items-center">
           {partners.map((partner, index) => (
             <div
-              key={partner.name}
+              key={partner.logo}
               className={cn(
-                "flex items-center justify-center p-4 md:p-6 bg-white rounded-lg md:rounded-xl hover:shadow-lg transition-shadow",
+                "flex items-center justify-center p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:shadow-lg transition-shadow",
                 isVisible && "animate-fade-in-up",
               )}
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <Image
-                src={partner.logo || "/placeholder.svg"}
+                src={partner.logo}
                 alt={partner.name}
                 width={150}
-                height={60}
-                className="max-h-8 md:max-h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+                height={150}
+                className="max-h-22 md:max-h-22 w-auto object-cover opacity-100 hover:opacity-100 transition-opacity"
               />
             </div>
           ))}

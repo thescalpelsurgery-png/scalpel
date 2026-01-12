@@ -6,45 +6,31 @@ import { Calendar, Award, Globe, Monitor, Users, Lightbulb } from "lucide-react"
 
 const milestones = [
   {
-    year: "2015",
-    title: "Foundation",
+    year: "2025",
+    title: "The Foundation",
     description:
-      "Scalpel was founded by a group of visionary surgeons with a mission to revolutionize surgical education.",
+      "Inception of the SCALPEL in Abbottabad, created to fill the critical gap in undergraduate surgical training. Our founding goal was to shift the focus from passive observation to active, simulation-based mastery.",
     icon: Lightbulb,
     color: "from-primary to-primary/70",
   },
   {
-    year: "2017",
-    title: "First Conference",
-    description: "Hosted our inaugural annual conference with 500+ attendees from 20 countries.",
+    year: "July 2025",
+    title: "Mastering the Art of Surgery",
+    description: "Our flagship event with Ayub Teaching Hospital. This multi-track session provided intensive training in foundational suturing techniques.",
     icon: Calendar,
     color: "from-secondary to-secondary/70",
   },
   {
-    year: "2019",
-    title: "Global Expansion",
-    description: "Expanded to 50+ partner institutions worldwide, establishing regional training centers.",
+    year: "October 2025",
+    title: "Clinical Skills Essentials",
+    description: "A high-impact training session focused on the core maneuvers of surgical care: IV Access, Abscess Removal and Wound Management under direct guidance.",
     icon: Globe,
     color: "from-emerald-500 to-emerald-600",
   },
   {
-    year: "2021",
-    title: "Digital Platform",
-    description: "Launched our comprehensive online learning platform with virtual surgical simulations.",
-    icon: Monitor,
-    color: "from-amber-500 to-amber-600",
-  },
-  {
-    year: "2023",
-    title: "5000 Members",
-    description: "Reached a milestone of 5000+ active members across all surgical specialties.",
-    icon: Users,
-    color: "from-rose-500 to-rose-600",
-  },
-  {
-    year: "2025",
-    title: "Innovation Hub",
-    description: "Opening state-of-the-art surgical innovation and training center.",
+    year: "May 2026",
+    title: "The Summit",
+    description: "A premier regional event unifying medical students, residents, and senior consultants for elite surgical workshops and live masterclasses.",
     icon: Award,
     color: "from-sky-500 to-sky-600",
   },
@@ -79,11 +65,10 @@ export function Timeline() {
             Our Journey
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 md:mb-6">
-            A Decade of Excellence
+            Our Journey
           </h2>
           <p className="text-slate-600 text-sm md:text-lg leading-relaxed px-2">
-            From humble beginnings to a global community, our journey has been defined by continuous growth and
-            unwavering commitment to surgical education.
+            From inception in Abbottabad to national scale, our journey is defined by bridging the gap in surgical training through simulation-based excellence.
           </p>
         </div>
 

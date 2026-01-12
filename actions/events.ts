@@ -3,6 +3,8 @@
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
+import { sendEmail, emailTemplates } from "@/lib/email"
+
 export async function registerForEvent(prevState: any, formData: FormData) {
     const eventId = formData.get("eventId") as string
     const firstName = formData.get("firstName") as string
@@ -11,6 +13,8 @@ export async function registerForEvent(prevState: any, formData: FormData) {
     const phone = formData.get("phone") as string
     const organization = formData.get("organization") as string
     const specialRequirements = formData.get("specialRequirements") as string
+
+    const registrationData = formData.get("registrationData") as string
 
     if (!eventId || !firstName || !lastName || !email) {
         return { error: "Missing required fields" }
@@ -33,17 +37,17 @@ export async function registerForEvent(prevState: any, formData: FormData) {
     // Check capacity (optional, but good practice to double check)
     const { data: event } = await supabase
         .from("events")
-        .select("max_participants")
+        .select("*")
         .eq("id", eventId)
         .single()
 
-    if (event?.max_participants) {
+    if (event?.capacity) {
         const { count } = await supabase
             .from("event_registrations")
             .select("*", { count: "exact", head: true })
             .eq("event_id", eventId)
 
-        if (count !== null && count >= event.max_participants) {
+        if (count !== null && count >= event.capacity) {
             return { error: "Event is full." }
         }
     }
@@ -56,6 +60,7 @@ export async function registerForEvent(prevState: any, formData: FormData) {
         phone: phone || null,
         institution: organization || null,
         special_needs: specialRequirements || null,
+        registration_data: registrationData ? JSON.parse(registrationData) : {},
     })
 
     if (error) {
@@ -63,6 +68,44 @@ export async function registerForEvent(prevState: any, formData: FormData) {
         return { error: "Failed to register. Please try again." }
     }
 
+    // Send Confirmation Email
+    try {
+        if (event) {
+            const emailContent = emailTemplates.eventRegistration(
+                `${firstName} ${lastName}`,
+                event.title,
+                new Date(event.date).toLocaleDateString(),
+                event.location
+            )
+
+            await sendEmail({
+                to: email,
+                subject: emailContent.subject,
+                html: emailContent.html
+            })
+        }
+    } catch (emailErr) {
+        console.error("Failed to send confirmation email:", emailErr)
+        // We don't fail the request if email fails, but we log it
+    }
+
     revalidatePath(`/events/${eventId}`)
     return { success: "Successfully registered!" }
+}
+
+export async function deleteRegistrant(registrantId: string, eventId: string) {
+    const supabase = await createClient()
+
+    const { error } = await supabase
+        .from("event_registrations")
+        .delete()
+        .eq("id", registrantId)
+
+    if (error) {
+        console.error("Error deleting registrant:", error)
+        return { error: "Failed to delete registrant" }
+    }
+
+    revalidatePath(`/events/${eventId}`)
+    return { success: "Registrant deleted successfully" }
 }

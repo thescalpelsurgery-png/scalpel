@@ -33,19 +33,17 @@ export const metadata: Metadata = {
     },
 }
 
-export default function RootLayout({
+export default function UserLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en" className="scroll-smooth">
-            <body className={`font-sans antialiased`}>
-                <Navbar />
-                <main>{children}</main>
-                <Footer />
-                <Analytics />
-            </body>
-        </html>
+        <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <Analytics />
+        </div>
     )
 }

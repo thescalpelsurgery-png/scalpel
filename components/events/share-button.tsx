@@ -30,7 +30,7 @@ export function ShareButton() {
     return (
         <Button
             variant="outline"
-            className="flex-1 gap-2 bg-white hover:bg-primary/5 border-2 hover:border-primary transition-all duration-300"
+            className="flex-1 gap-2 bg-secondary hover:bg-primary/80 border-2 hover:border-primary transition-all duration-300"
             onClick={handleShare}
         >
             {copied ? (

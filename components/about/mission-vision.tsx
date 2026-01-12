@@ -10,7 +10,7 @@ const items = [
     icon: Target,
     title: "Our Mission",
     description:
-      "To provide world-class surgical education and foster a collaborative environment where healthcare professionals can continuously improve their skills, knowledge, and patient outcomes.",
+      "To move beyond the textbook. We provide a safe, supervised environment where students master technical precision through real surgical skills and hands-on practice.",
     color: "from-primary to-primary/70",
     image: "/surgeons-in-operating-room-performing-surgery.jpg",
   },
@@ -18,15 +18,15 @@ const items = [
     icon: Eye,
     title: "Our Vision",
     description:
-      "To be the global leader in surgical education, setting the standard for excellence in professional development and interdisciplinary collaboration in the healthcare sector.",
+      "To standardize surgical simulation across Pakistan, creating a national network where the next generation of surgeons is defined by merit, mentorship, and mastery.",
     color: "from-secondary to-secondary/70",
     image: "/futuristic-medical-technology-hologram-surgery.jpg",
   },
   {
     icon: Heart,
-    title: "Our Values",
+    title: "Our Motto",
     description:
-      "Excellence, Integrity, Innovation, and Collaboration guide everything we do. We believe in evidence-based practice, continuous learning, and putting patient safety first.",
+      "Practice. Precision. Progress. We believe in evidence-based practice, continuous learning, and putting patient safety first.",
     color: "from-accent to-accent/70",
     image: "/medical-team-caring-for-patient-hospital.jpg",
   },

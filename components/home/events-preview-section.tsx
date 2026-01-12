@@ -60,7 +60,7 @@ export async function EventsPreviewSection() {
             </h2>
           </div>
           <Link href="/events" className="w-full sm:w-auto">
-            <Button variant="outline" className="group bg-transparent w-full sm:w-auto">
+            <Button variant="outline" className="group bg-background w-full sm:w-auto">
               View All Events
               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>

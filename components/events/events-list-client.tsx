@@ -114,7 +114,7 @@ export function EventsListClient({ events }: EventsListClientProps) {
 
                 {/* Featured Events */}
                 {featuredEvents.length > 0 && (
-                    <div className="grid gap-4 sm:gap-6 md:gap-8 mb-8 md:mb-12">
+                    <div className="grid gap-4 sm:gap-6 md:gap-8 mb-8 md:mb-12 ">
                         {featuredEvents.map((event, index) => (
                             <Link
                                 key={event.id}
@@ -125,7 +125,7 @@ export function EventsListClient({ events }: EventsListClientProps) {
                                 )}
                                 style={{ animationDelay: `${index * 100}ms` }}
                             >
-                                <div className="flex flex-col sm:flex-row">
+                                <div className="flex flex-col sm:flex-row border border-grey">
                                     {/* Image */}
                                     <div className="relative w-full sm:w-2/5 lg:w-1/3 aspect-[16/10] sm:aspect-auto sm:min-h-[240px]">
                                         <Image

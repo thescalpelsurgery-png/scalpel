@@ -120,11 +120,11 @@ const renderEmail = (title: string, contentHtml: string) => `
 `
 
 export const emailTemplates = {
-    membershipConfirmation: (name: string) => ({
-        subject: "Welcome to Scalpel - Membership Application Received",
-        html: renderEmail(
-            "Welcome to Scalpel",
-            `
+  membershipConfirmation: (name: string) => ({
+    subject: "Welcome to Scalpel - Membership Application Received",
+    html: renderEmail(
+      "Welcome to Scalpel",
+      `
       <h2 style="font-size: 24px; margin-bottom: 16px;">Welcome aboard, ${name}!</h2>
       <p>Thank you for applying to join the Scalpel community. We are excited to have you on your journey to surgical excellence.</p>
       
@@ -139,16 +139,16 @@ export const emailTemplates = {
       
       <p>Best regards,<br><strong>The Scalpel Team</strong></p>
       `
-        ),
-    }),
+    ),
+  }),
 
-    eventRegistration: (name: string, eventTitle: string, eventDate: string, eventLocation: string) => ({
-        subject: `Registration Confirmed: ${eventTitle}`,
-        html: renderEmail(
-            "Event Registration",
-            `
+  eventRegistration: (name: string, eventTitle: string, eventDate: string, eventLocation: string) => ({
+    subject: `Registration Confirmed: ${eventTitle}`,
+    html: renderEmail(
+      "Event Registration",
+      `
       <h2 style="font-size: 24px; margin-bottom: 16px;">See you there, ${name}!</h2>
-      <p>Your registration for <span class="accent">${eventTitle}</span> has been successfully confirmed.</p>
+      <p>Your registration for <span class="accent">${eventTitle}</span>.</p>
       
       <div class="card">
         <h3 class="card-title">Event Details</h3>
@@ -170,14 +170,14 @@ export const emailTemplates = {
       
       <p>Best regards,<br><strong>The Scalpel Team</strong></p>
       `
-        ),
-    }),
+    ),
+  }),
 
-    newsletterWelcome: (email: string) => ({
-        subject: "Welcome to the Scalpel Newsletter",
-        html: renderEmail(
-            "Newsletter Subscription",
-            `
+  newsletterWelcome: (email: string) => ({
+    subject: "Welcome to the Scalpel Newsletter",
+    html: renderEmail(
+      "Newsletter Subscription",
+      `
       <h2 style="font-size: 24px; margin-bottom: 16px;">You're on the list!</h2>
       <p>Thank you for subscribing to the Scalpel newsletter. You'll now receive the latest surgical insights and event updates directly in your inbox.</p>
       
@@ -196,14 +196,14 @@ export const emailTemplates = {
       
       <p>Happy learning,<br><strong>The Scalpel Team</strong></p>
       `
-        ),
-    }),
+    ),
+  }),
 
-    adminBroadcast: (subject: string, content: string) => ({
-        subject: subject,
-        html: renderEmail(
-            "Scalpel Update",
-            `
+  adminBroadcast: (subject: string, content: string) => ({
+    subject: subject,
+    html: renderEmail(
+      "Scalpel Update",
+      `
       <div style="font-size: 16px; color: #2d3748;">
         ${content.replace(/\n/g, '<br>')}
       </div>
@@ -214,14 +214,14 @@ export const emailTemplates = {
         </p>
       </div>
       `
-        ),
-    }),
+    ),
+  }),
 
-    contactRequest: (data: { firstName: string, lastName: string, email: string, phone: string, subject: string, message: string }) => ({
-        subject: `New Contact Request: ${data.subject}`,
-        html: renderEmail(
-            "Contact Inquiry",
-            `
+  contactRequest: (data: { firstName: string, lastName: string, email: string, phone: string, subject: string, message: string }) => ({
+    subject: `New Contact Request: ${data.subject}`,
+    html: renderEmail(
+      "Contact Inquiry",
+      `
       <h2 style="font-size: 24px; margin-bottom: 16px;">New Inquiry from ${data.firstName} ${data.lastName}</h2>
       
       <div class="card">
@@ -247,6 +247,6 @@ export const emailTemplates = {
         <p style="white-space: pre-wrap; margin: 0;">${data.message}</p>
       </div>
       `
-        ),
-    }),
+    ),
+  }),
 }

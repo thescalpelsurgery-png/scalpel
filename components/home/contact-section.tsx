@@ -38,7 +38,7 @@ export function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "contactRequest",
-          to: "asjadilahi01@gmail.com",
+          to: "support@scalpelsurgery.org",
           data: data,
         }),
       })
@@ -58,16 +58,10 @@ export function ContactSection() {
   }
 
   return (
-    <section className="w-full py-16 md:py-24 bg-slate-900 relative overflow-hidden" id="contact">
+    <section className="w-full py-16 md:py-24 bg-background relative overflow-hidden" id="contact">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <Image
-          src="/modern-medical-center-building-exterior-at-dusk-wi.jpg"
-          alt="Medical Center"
-          fill
-          className="object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background-900 via-primary/95 to-secondary/80" />
       </div>
 
       {/* Decorative Elements */}
@@ -97,7 +91,7 @@ export function ContactSection() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-white text-sm md:text-base">Our Location</h4>
-                  <p className="text-slate-400 text-sm">123 Medical Center Drive, HC 12345</p>
+                  <p className="text-slate-400 text-sm">Ayub Teaching Hospital, Abbottabad, KP, Pakistan.</p>
                 </div>
               </div>
 
@@ -107,7 +101,7 @@ export function ContactSection() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-white text-sm md:text-base">Phone Number</h4>
-                  <p className="text-slate-400 text-sm">+1 (555) 123-4567</p>
+                  <p className="text-slate-400 text-sm">+92 341 5931072</p>
                 </div>
               </div>
 
@@ -117,17 +111,7 @@ export function ContactSection() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-white text-sm md:text-base">Email Address</h4>
-                  <p className="text-slate-400 text-sm">info@scalpel.org</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shrink-0">
-                  <Clock className="w-5 h-5 text-white" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-semibold text-white text-sm md:text-base">Office Hours</h4>
-                  <p className="text-slate-400 text-sm">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                  <p className="text-slate-400 text-sm">support@scalpelsurgery.org</p>
                 </div>
               </div>
             </div>

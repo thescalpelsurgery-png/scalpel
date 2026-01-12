@@ -149,7 +149,7 @@ export function ComposeEmailDialog({ open, subscribers }: ComposeEmailDialogProp
   if (success) {
     return (
       <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <div className="text-center py-8">
             <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
               <Send className="w-8 h-8 text-green-600" />
@@ -167,7 +167,7 @@ export function ComposeEmailDialog({ open, subscribers }: ComposeEmailDialogProp
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-3xl max-h-[95vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="max-w-3xl max-h-[95vh] flex flex-col p-0 overflow-hidden bg-white">
         <DialogHeader className="p-6 border-b">
           <DialogTitle className="flex items-center gap-2">
             <Send className="w-5 h-5 text-primary" />

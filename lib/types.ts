@@ -29,10 +29,25 @@ export interface Event {
   image_url?: string
   capacity?: number
   registration_link?: string
+  disclaimer?: string
+  latitude?: number
+  longitude?: number
+  registration_form_config?: any // Using any for now, or define specific schema
+  abstract_submission_link?: string
+  abstract_details?: string
   is_featured: boolean
   is_past: boolean
   created_at: string
   updated_at: string
+}
+
+export interface RegistrationField {
+  id: string
+  type: "text" | "number" | "select" | "checkbox" | "file" | "date"
+  label: string
+  required?: boolean
+  options?: string[] // For select/checkbox
+  placeholder?: string
 }
 
 export interface Blog {

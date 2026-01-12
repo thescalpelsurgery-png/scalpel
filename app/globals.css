@@ -12,22 +12,22 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fffbfb;
-  --foreground: oklch(0.1450 0 0);
+  --background: #05221C;
+  --foreground: oklch(0% 0 0);
   --card: #fff6f6;
   --card-foreground: oklch(0.1450 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.1450 0 0);
-  --primary: #16769d;
-  --primary-foreground: #ffffff;
-  --secondary: #1abcfe;
+  --popover: oklch(0% 0 0);
+  --popover-foreground: oklch(69.684% 0.00114 13.365);
+  --primary: #495E57;
+  --primary-foreground: #d3d3d3;
+  --secondary: #9DB5A0;
   --secondary-foreground: #000000;
-  --muted: oklch(0.9700 0 0);
-  --muted-foreground: oklch(0.5560 0 0);
-  --accent: #ff7262;
+  --muted: oklch(0% 0 0);
+  --muted-foreground: oklch(0% 0 0);
+  --accent: #A08D7C;
   --accent-foreground: #fffdfd;
   --destructive: oklch(0.5770 0.2450 27.3250);
-  --destructive-foreground: oklch(1 0 0);
+  --destructive-foreground: oklch(57.785% 0.00242 15.735);
   --border: #d0d0d0;
   --input: #c1c1ff;
   --ring: oklch(0.7080 0 0);
@@ -356,4 +356,8 @@
 
 .animate-accordion-up {
   animation: accordion-up 0.2s ease-out;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
 }

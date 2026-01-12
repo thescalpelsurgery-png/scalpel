@@ -4,7 +4,8 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import type { Event } from "@/lib/types"
+import type { Event, RegistrationField } from "@/lib/types"
+import { FormBuilder } from "@/components/admin/events/form-builder"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -43,7 +44,14 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
     registration_link: "",
     is_featured: false,
     is_past: false,
+    abstract_submission_link: "",
+    abstract_details: "",
+    disclaimer: "",
+    latitude: 0,
+    longitude: 0,
   })
+
+  const [formFields, setFormFields] = useState<RegistrationField[]>([])
 
   useEffect(() => {
     if (event) {
@@ -61,7 +69,13 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         registration_link: event.registration_link || "",
         is_featured: event.is_featured,
         is_past: event.is_past,
+        abstract_submission_link: event.abstract_submission_link || "",
+        abstract_details: event.abstract_details || "",
+        disclaimer: event.disclaimer || "",
+        latitude: event.latitude || 0,
+        longitude: event.longitude || 0,
       })
+      setFormFields(event.registration_form_config || [])
       setImageType("url")
     } else {
       setFormData({
@@ -78,7 +92,13 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         registration_link: "",
         is_featured: false,
         is_past: false,
+        abstract_submission_link: "",
+        abstract_details: "",
+        disclaimer: "",
+        latitude: 0,
+        longitude: 0,
       })
+      setFormFields([])
       setImageType("url")
       setUploadFile(null)
     }
@@ -137,6 +157,12 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         registration_link: formData.registration_link || null,
         is_featured: formData.is_featured,
         is_past: formData.is_past,
+        abstract_submission_link: formData.abstract_submission_link || null,
+        abstract_details: formData.abstract_details || null,
+        disclaimer: formData.disclaimer || null,
+        latitude: formData.latitude || null,
+        longitude: formData.longitude || null,
+        registration_form_config: formFields,
         updated_at: new Date().toISOString(),
       }
 
@@ -159,7 +185,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white">
         <DialogHeader>
           <DialogTitle>{event ? "Edit Event" : "Create New Event"}</DialogTitle>
         </DialogHeader>
@@ -248,38 +274,92 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">Full Content</Label>
+            <Label htmlFor="content">Full Content (HTML Supported)</Label>
+            <div className="text-xs text-muted-foreground mb-1">
+              You can paste raw HTML here. It will be rendered as a layout on the event page.
+            </div>
             <Textarea
               id="content"
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              rows={4}
-              placeholder="Detailed event description..."
+              rows={8}
+              placeholder="<div class='custom-layout'>...</div>"
+              className="font-mono text-sm"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="capacity">Capacity</Label>
+            <Input
+              id="capacity"
+              type="number"
+              value={formData.capacity}
+              onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+              placeholder="Maximum attendees"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="disclaimer">Registration Disclaimer / Terms (Appears at top of form)</Label>
+            <Textarea
+              id="disclaimer"
+              value={formData.disclaimer}
+              onChange={(e) => setFormData({ ...formData, disclaimer: e.target.value })}
+              rows={3}
+              placeholder="e.g. By registering, you agree to..."
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="capacity">Capacity</Label>
+              <Label htmlFor="latitude">Latitude (e.g., 51.5074)</Label>
               <Input
-                id="capacity"
+                id="latitude"
                 type="number"
-                value={formData.capacity}
-                onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-                placeholder="Maximum attendees"
+                step="any"
+                value={formData.latitude}
+                onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
+                placeholder="0.00"
               />
             </div>
-
             <div className="space-y-2">
-              <Label htmlFor="registration_link">Registration Link</Label>
+              <Label htmlFor="longitude">Longitude (e.g., -0.1278)</Label>
               <Input
-                id="registration_link"
-                type="url"
-                value={formData.registration_link}
-                onChange={(e) => setFormData({ ...formData, registration_link: e.target.value })}
+                id="longitude"
+                type="number"
+                step="any"
+                value={formData.longitude}
+                onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-2 border-t mt-4">
+            <h4 className="font-semibold text-sm">Call for Abstracts (Optional)</h4>
+            <div className="space-y-2">
+              <Label htmlFor="abstract_link">Submission Link</Label>
+              <Input
+                id="abstract_link"
+                value={formData.abstract_submission_link}
+                onChange={(e) => setFormData({ ...formData, abstract_submission_link: e.target.value })}
                 placeholder="https://..."
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="abstract_details">Abstract Guidelines / Details</Label>
+              <Textarea
+                id="abstract_details"
+                value={formData.abstract_details}
+                onChange={(e) => setFormData({ ...formData, abstract_details: e.target.value })}
+                rows={3}
+                placeholder="Enter details about abstract submission requirements..."
+              />
+            </div>
+          </div>
+
+          <div className="border-t pt-4 mt-4">
+            <FormBuilder fields={formFields} onChange={setFormFields} />
           </div>
 
           <div className="space-y-4">
@@ -395,6 +475,6 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
           </div>
         </form>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   )
 }

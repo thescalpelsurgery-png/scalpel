@@ -55,15 +55,15 @@ export function MembersHeader({ counts, currentStatus }: MembersHeaderProps) {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-background flex items-center gap-2">
             <Users className="w-6 h-6" />
             Members
           </h2>
-          <p className="text-slate-600 mt-1">Manage membership applications and members</p>
+          <p className="text-white mt-1">Manage membership applications and members</p>
         </div>
         <form onSubmit={handleSearch} className="flex gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" />
             <Input
               type="search"
               placeholder="Search members..."
