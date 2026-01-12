@@ -18,7 +18,6 @@ async function testEmail() {
             pass: process.env.SMTP_PASS,
         },
     });
-
     try {
         console.log('Sending test email...');
         const info = await transporter.sendMail({
