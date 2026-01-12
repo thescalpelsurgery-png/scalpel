@@ -11,6 +11,29 @@ import { EventRegistrationForm } from "@/components/events/event-registration-fo
 import { CountdownTimer } from "@/components/events/countdown-timer"
 import { ShareButton } from "@/components/events/share-button"
 import { ClientMap } from "@/components/ui/client-map"
+import type { Metadata } from "next"
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const supabase = await createClient()
+  const { data: event } = await supabase.from("events").select("title, description, image_url").eq("id", id).single()
+
+  if (!event) return { title: "Event Not Found" }
+
+  return {
+    title: event.title,
+    description: event.description,
+    alternates: {
+      canonical: `/events/${id}`,
+    },
+    openGraph: {
+      title: event.title,
+      description: event.description,
+      images: event.image_url ? [event.image_url] : [],
+      type: "website",
+    },
+  }
+}
 
 export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -32,8 +55,36 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
   // Check if event is upcoming
   const isUpcoming = new Date(event.date) > new Date()
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    description: event.description,
+    startDate: event.date,
+    location: {
+      "@type": "Place",
+      name: event.location,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: event.location,
+      },
+    },
+    image: event.image_url,
+    organizer: {
+      "@type": "Organization",
+      name: "Scalpel",
+      url: "https://scalpel.org",
+    },
+    eventStatus: event.is_past ? "https://schema.org/EventScheduled" : "https://schema.org/EventScheduled", // Could be more precise if we had a status column
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", // Assuming offline for now
+  }
+
   return (
     <div className="min-h-screen relative bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* Back Link with enhanced spacing */}
       <div className="container mx-auto px-4 pt-24 pb-8 relative z-10 ">

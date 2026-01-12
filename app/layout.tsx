@@ -23,13 +23,40 @@ const oxygen = Oxygen({
 
 // <CHANGE> Updated metadata for Scalpel surgical society
 export const metadata: Metadata = {
-  title: "Scalpel | Master Advanced Surgical Techniques",
+  metadataBase: new URL("https://scalpelsurgery.org"),
+  alternates: {
+    canonical: "/",
+  },
+  title: {
+    default: "Scalpel | Master Advanced Surgical Techniques",
+    template: "%s | Scalpel"
+  },
   description:
     "Join a comprehensive academic platform where interdisciplinary collaboration meets continuous professional development. Elevate your surgical expertise with evidence-based programs.",
   generator: "v0.app",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://scalpel.org",
+    siteName: "Scalpel",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Scalpel - Master Advanced Surgical Techniques",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Scalpel | Master Advanced Surgical Techniques",
+    description: "Join a comprehensive academic platform for surgical excellence.",
+    images: ["/logo.png"],
   },
 }
 

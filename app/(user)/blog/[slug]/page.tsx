@@ -12,10 +12,22 @@ import { ShareSection } from "@/components/blog/share-section"
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const supabase = await createClient()
-  const { data: post } = await supabase.from("blogs").select("title").eq("slug", slug).single()
+  const { data: post } = await supabase.from("blogs").select("title, excerpt, image_url").eq("slug", slug).single()
+
+  if (!post) return { title: "Blog Post Not Found" }
 
   return {
-    title: post ? `${post.title} | Scalpel` : "Blog | Scalpel",
+    title: post.title,
+    description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: post.image_url ? [post.image_url] : [],
+      type: "article",
+    },
   }
 }
 
@@ -45,8 +57,38 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     .order("published_at", { ascending: false })
     .limit(2)
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image_url,
+    datePublished: post.published_at || post.created_at,
+    dateModified: post.updated_at || post.published_at || post.created_at,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Scalpel",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://scalpel.org/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://scalpel.org/blog/${post.slug}`,
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ReadingProgress />
       <article className="pt-20 pb-16 bg-gradient-to-b from-slate-50 via-white to-slate-50/50 min-h-screen relative overflow-hidden">
         {/* Decorative background elements */}
