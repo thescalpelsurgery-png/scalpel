@@ -11,7 +11,6 @@ async function testEmail() {
         console.error('Error: SMTP_USER or SMTP_PASS not found in .env');
         return;
     }
-
     const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: parseInt(process.env.SMTP_PORT || '587'),
