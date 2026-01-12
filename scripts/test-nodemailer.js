@@ -6,7 +6,6 @@ async function testEmail() {
     console.log('SMTP_HOST:', process.env.SMTP_HOST);
     console.log('SMTP_USER:', process.env.SMTP_USER);
     console.log('EMAIL_FROM:', process.env.EMAIL_FROM);
-
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
         console.error('Error: SMTP_USER or SMTP_PASS not found in .env');
         return;
