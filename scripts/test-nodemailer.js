@@ -1,6 +1,5 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-
 async function testEmail() {
     console.log('--- Nodemailer Test ---');
     console.log('SMTP_HOST:', process.env.SMTP_HOST);
