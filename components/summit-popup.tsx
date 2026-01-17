@@ -55,7 +55,7 @@ export function SummitPopup({ event }: { event: Event | null }) {
 
                             <Link href={`/events/${event.id}`}>
                                 <Button onClick={() => setOpen(false)} className="w-full sm:w-auto rounded-full px-6 py-5 sm:px-8 sm:py-6 bg-white text-black hover:bg-white/90 font-semibold group transition-all text-sm sm:text-base">
-                                    Register Now
+                                    Explore Details
                                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
