@@ -30,6 +30,7 @@ export function PastEventsSlider() {
                 .from("events")
                 .select("id, title, image_url, date, location, is_past")
                 .eq("is_past", true)
+                .neq("is_draft", true)
                 .order("date", { ascending: false })
                 .limit(6)
 

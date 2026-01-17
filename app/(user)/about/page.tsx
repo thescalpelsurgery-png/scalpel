@@ -17,7 +17,7 @@ export default function AboutPage() {
       <MissionVision />
       <EducationalApproach />
       <Timeline />
-      <TeamSection />
+      {/* <TeamSection /> */}
       <PartnersSection />
     </>
   )

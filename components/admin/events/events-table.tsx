@@ -1,5 +1,6 @@
-"use client"
 
+"use client"
+import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
@@ -25,6 +26,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Switch } from "@/components/ui/switch"
 import { MoreHorizontal, Pencil, Trash2, Star, StarOff, Loader2, Users } from "lucide-react"
 import { EventRegistrantsDialog } from "./event-registrants-dialog"
 
@@ -47,6 +49,122 @@ export function EventsTable({ events }: EventsTableProps) {
       .eq("id", id)
     router.refresh()
     setIsLoading(null)
+  }
+
+  const toggleDraft = async (id: string, newState: boolean) => {
+    setIsLoading(id)
+    const supabase = createClient()
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .update({ is_draft: newState, updated_at: new Date().toISOString() })
+        .eq("id", id)
+
+      if (error) throw error
+
+      router.refresh()
+      toast.success(newState ? "Event set to Draft" : "Event Published")
+    } catch (error) {
+      console.error("Error toggling draft:", error)
+      toast.error("Failed to update draft status. " + (error as Error).message)
+    } finally {
+      setIsLoading(null)
+    }
+  }
+
+  const toggleSummit2026 = async (id: string, newState: boolean) => {
+    setIsLoading(id)
+    const supabase = createClient()
+
+    try {
+      if (newState) { // Switching ON
+        // 1. Find the currently active summit event
+        const { data: currentSummit } = await supabase
+          .from("events")
+          .select("id")
+          .eq("is_summit_2026", true)
+          .maybeSingle()
+
+        // 2. If there is one (and it's not the current one), turn it OFF
+        if (currentSummit && currentSummit.id !== id) {
+          const { error: offError } = await supabase
+            .from("events")
+            .update({ is_summit_2026: false })
+            .eq("id", currentSummit.id)
+
+          if (offError) throw offError
+        }
+
+        // 3. Turn the new one ON
+        const { error: onError } = await supabase
+          .from("events")
+          .update({ is_summit_2026: true, updated_at: new Date().toISOString() })
+          .eq("id", id)
+
+        if (onError) throw onError
+
+      } else { // Switching OFF
+        const { error: offError } = await supabase
+          .from("events")
+          .update({ is_summit_2026: false, updated_at: new Date().toISOString() })
+          .eq("id", id)
+
+        if (offError) throw offError
+      }
+
+      router.refresh()
+      toast.success(newState ? "Event tagged as Summit 2026" : "Summit tag removed")
+    } catch (error) {
+      console.error("Error toggling summit:", error)
+      toast.error("Failed to update status. " + (error as Error).message)
+    } finally {
+      setIsLoading(null)
+    }
+  }
+
+  const toggleRegistrationClosed = async (id: string, newState: boolean) => {
+    setIsLoading(id)
+    const supabase = createClient()
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .update({ is_registration_closed: newState, updated_at: new Date().toISOString() })
+        .eq("id", id)
+
+      if (error) throw error
+
+      router.refresh()
+      toast.success(newState ? "Registration Closed" : "Registration Opened")
+    } catch (error) {
+      console.error("Error toggling registration:", error)
+      toast.error("Failed to update registration status. " + (error as Error).message)
+    } finally {
+      setIsLoading(null)
+    }
+  }
+
+  const togglePast = async (id: string, newState: boolean) => {
+    setIsLoading(id)
+    const supabase = createClient()
+
+    try {
+      const { error } = await supabase
+        .from("events")
+        .update({ is_past: newState, updated_at: new Date().toISOString() })
+        .eq("id", id)
+
+      if (error) throw error
+
+      router.refresh()
+      toast.success(newState ? "Marked as Past Event" : "Marked as Upcoming Event")
+    } catch (error) {
+      console.error("Error toggling past status:", error)
+      toast.error("Failed to update past status. " + (error as Error).message)
+    } finally {
+      setIsLoading(null)
+    }
   }
 
   const deleteEvent = async () => {
@@ -91,6 +209,10 @@ export function EventsTable({ events }: EventsTableProps) {
               <TableRow>
                 <TableHead>Event</TableHead>
                 <TableHead className="hidden sm:table-cell">Type</TableHead>
+                <TableHead>Draft</TableHead>
+                <TableHead>Summit 26</TableHead>
+                <TableHead>Reg. Closed</TableHead>
+                <TableHead>Past</TableHead>
                 <TableHead className="hidden md:table-cell">Location</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead className="hidden lg:table-cell">Featured</TableHead>
@@ -101,10 +223,43 @@ export function EventsTable({ events }: EventsTableProps) {
               {events.map((event) => (
                 <TableRow key={event.id}>
                   <TableCell>
-                    <div className="font-medium">{event.title}</div>
+                    <div className="font-medium">
+                      {event.title}
+                    </div>
                     <div className="text-sm text-slate-500 sm:hidden">{event.type}</div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">{getTypeBadge(event.type)}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={event.is_draft}
+                        onCheckedChange={(checked) => toggleDraft(event.id, checked)}
+                        disabled={isLoading === event.id}
+                      />
+                      <span className="text-xs text-muted-foreground">{event.is_draft ? "Draft" : "Public"}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={event.is_summit_2026}
+                      onCheckedChange={(checked) => toggleSummit2026(event.id, checked)}
+                      disabled={isLoading === event.id}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={event.is_registration_closed}
+                      onCheckedChange={(checked) => toggleRegistrationClosed(event.id, checked)}
+                      disabled={isLoading === event.id || event.is_past}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={event.is_past}
+                      onCheckedChange={(checked) => togglePast(event.id, checked)}
+                      disabled={isLoading === event.id}
+                    />
+                  </TableCell>
                   <TableCell className="hidden md:table-cell">{event.location}</TableCell>
                   <TableCell>
                     <div>{new Date(event.date).toLocaleDateString()}</div>
@@ -139,6 +294,7 @@ export function EventsTable({ events }: EventsTableProps) {
                           <Users className="w-4 h-4 mr-2" />
                           View Registrants
                         </DropdownMenuItem>
+
                         <DropdownMenuItem onClick={() => toggleFeatured(event.id, event.is_featured)}>
                           {event.is_featured ? (
                             <>

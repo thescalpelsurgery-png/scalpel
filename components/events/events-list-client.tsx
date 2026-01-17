@@ -25,6 +25,8 @@ type Event = {
     registration_link?: string
     is_featured: boolean
     is_past: boolean
+    is_draft?: boolean
+    is_summit_2026?: boolean
     created_at: string
     updated_at: string
 }

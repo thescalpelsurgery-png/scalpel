@@ -11,6 +11,7 @@ export async function EventsPreviewSection() {
     .from("events")
     .select("*")
     .eq("is_past", false)
+    .neq("is_draft", true)
     .order("date", { ascending: true })
     .limit(3)
 

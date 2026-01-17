@@ -64,7 +64,7 @@ export function ShareSection({ title, slug }: ShareSectionProps) {
                             variant="outline"
                             size="icon"
                             asChild
-                            className={`rounded-full bg-white transition-all duration-300 shadow-md hover:shadow-lg hover:scale-110 w-12 h-12 ${link.color}`}
+                            className={`rounded-full bg-white border-slate-200 text-slate-700 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-110 w-12 h-12 ${link.color}`}
                         >
                             <a href={link.href} target="_blank" rel="noopener noreferrer" title={`Share on ${link.name}`}>
                                 <link.icon className="w-5 h-5" />
@@ -76,7 +76,7 @@ export function ShareSection({ title, slug }: ShareSectionProps) {
                         variant="outline"
                         size="icon"
                         onClick={handleCopy}
-                        className={`rounded-full bg-white transition-all duration-300 shadow-md hover:shadow-lg hover:scale-110 w-12 h-12 ${copied ? "bg-green-50 border-green-200 text-green-600" : "hover:bg-slate-900 hover:text-white"
+                        className={`rounded-full bg-white border-slate-200 text-slate-700 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-110 w-12 h-12 ${copied ? "bg-green-50 border-green-200 text-green-600" : "hover:bg-slate-900 hover:text-white"
                             }`}
                         title="Copy magic link"
                     >

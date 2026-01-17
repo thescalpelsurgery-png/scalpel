@@ -11,6 +11,7 @@ import { EventRegistrationForm } from "@/components/events/event-registration-fo
 import { CountdownTimer } from "@/components/events/countdown-timer"
 import { ShareButton } from "@/components/events/share-button"
 import { ClientMap } from "@/components/ui/client-map"
+import { EventContentDisplay } from "@/components/events/event-content-display"
 import type { Metadata } from "next"
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -100,9 +101,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       <div className="container mx-auto px-4 pb-20 relative z-10 bg-white">
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="contents lg:block lg:col-span-2 lg:space-y-8">
             {/* Hero Image / Header */}
-            <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group">
+            <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group order-1">
               <Image
                 src={event.image_url || "/placeholder.svg?height=600&width=800"}
                 alt={event.title}
@@ -146,7 +147,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Content Body */}
-            <div className="space-y-8">
+            <div className="space-y-8 order-3">
               {/* Quick Stats Row */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
@@ -175,15 +176,13 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
               </div>
 
               {event.content && (
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 prose prose-slate max-w-none prose-img:rounded-xl prose-headings:font-bold prose-a:text-primary">
-                  <div dangerouslySetInnerHTML={{ __html: event.content }} />
-                </div>
+                <EventContentDisplay content={event.content} />
               )}
             </div>
 
             {/* Map Section */}
             {event.latitude && event.longitude && (
-              <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+              <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 order-4">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                   <MapPin className="w-6 h-6 text-primary" />
                   Event Location
@@ -203,7 +202,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
           {/* Sidebar */}
           {!event.is_past && (
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 order-2">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 ring-1 ring-slate-100">
                   <div className="text-center mb-6">
@@ -220,15 +219,25 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                     </div>
                   </div>
 
-                  <Button
-                    asChild
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                    size="lg"
-                  >
-                    <Link href={`/events/${event.id}/register`}>
-                      Register Now
-                    </Link>
-                  </Button>
+                  {event.is_registration_closed ? (
+                    <Button
+                      disabled
+                      className="w-full bg-slate-100 text-slate-400 rounded-xl cursor-not-allowed"
+                      size="lg"
+                    >
+                      Registration Closed
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      size="lg"
+                    >
+                      <Link href={`/events/${event.id}/register`}>
+                        Register Now
+                      </Link>
+                    </Button>
+                  )}
 
                   <div className="mt-6 pt-6 border-t border-slate-100">
                     <div className="flex justify-center w-full">
@@ -267,7 +276,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
           {/* Special Sidebar for Past Events */}
           {event.is_past && (
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 order-2">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 ring-1 ring-slate-100">
                   <div className="text-center mb-6">

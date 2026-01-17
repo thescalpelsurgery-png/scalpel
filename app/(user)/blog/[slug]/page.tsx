@@ -90,7 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ReadingProgress />
-      <article className="pt-20 pb-16 bg-gradient-to-b from-slate-50 via-white to-slate-50/50 min-h-screen relative overflow-hidden">
+      <article className="pt-20 pb-16 bg-white min-h-screen relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-40 -left-64 w-96 h-96 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-96 -right-64 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -163,9 +163,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div>
               {/* Excerpt with Styled Quote */}
               {post.excerpt && (
-                <div className="relative mb-10">
+                <div className="relative mb-10 mr-4">
                   <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-purple-500 to-pink-500 rounded-full" />
-                  <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light italic pl-6">
+                  <p className="text-sm md:text-2xl text-slate-700 leading-relaxed font-light italic pl-6 pr-6 mr-4">
                     {post.excerpt}
                   </p>
                 </div>
@@ -173,12 +173,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Author Section with Premium Design */}
               {post.author && (
-                <div className="relative overflow-hidden rounded-2xl mb-12 bg-gradient-to-br from-slate-900 to-slate-800 p-6 shadow-xl">
-                  {/* Decorative pattern */}
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,_theme(colors.primary),_transparent_50%)]" />
-                  </div>
-
+                <div className="relative overflow-hidden rounded-2xl mb-12 bg-white p-6 shadow-xl mr-6">
                   <div className="relative flex items-center gap-5">
                     {post.author_image ? (
                       <Image
@@ -197,7 +192,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                       <div className="text-xs text-primary font-semibold uppercase tracking-wider mb-1">
                         Written by
                       </div>
-                      <div className="font-bold text-white text-xl">
+                      <div className="font-bold text-slate-900 text-xl">
                         {post.author}
                       </div>
                       {post.author_role && (
@@ -210,15 +205,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Content with Enhanced Prose Styling */}
               <div
-                className="prose prose-lg prose-slate max-w-none mb-16
+                className="prose prose-md prose-slate max-w-none mb-16
                   prose-headings:font-extrabold prose-headings:text-slate-900 prose-headings:tracking-tight prose-headings:scroll-mt-24
-                  prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-slate-200
-                  prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                  prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-lg
+                  prose-h2:text-xl prose-h2:mr-4 prose-h2:mt-6 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-slate-200
+                  prose-h3:text-lg prose-h3:mr-4 prose-h3:mt-6 prose-h3:mb-4
+                  prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-sm prose-p:mr-4
                   prose-a:text-primary prose-a:no-underline prose-a:font-semibold prose-a:border-b-2 prose-a:border-primary/30 hover:prose-a:border-primary hover:prose-a:bg-primary/5 prose-a:transition-all
                   prose-strong:text-slate-900 prose-strong:font-bold
-                  prose-ul:my-6 prose-ul:list-disc prose-ul:pl-6 prose-li:text-slate-700 prose-li:my-2 prose-li:text-lg
-                  prose-ol:my-6 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-slate-700
+                  prose-ul:my-4 prose-ul:mr-4  prose-ul:list-disc prose-ul:pl-6 prose-li:text-slate-700 prose-li:my-2 prose-li:text-md
+                  prose-ol:my-4 prose-ol:mr-4 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-slate-700
                   prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-10 prose-img:ring-1 prose-img:ring-slate-200
                   prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gradient-to-r prose-blockquote:from-primary/5 prose-blockquote:to-transparent
                   prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:rounded-r-2xl prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:text-slate-800 prose-blockquote:text-xl

@@ -35,7 +35,7 @@ export function ComposeEmailDialog({ open, onOpenChange, recipientCount, onSend 
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] bg-white">
                 <DialogHeader>
                     <DialogTitle>Email Registrants</DialogTitle>
                     <DialogDescription>

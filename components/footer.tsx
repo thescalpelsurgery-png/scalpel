@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
+import { Facebook, MessageCircle, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
@@ -20,8 +20,7 @@ export function Footer() {
               <span className="text-lg md:text-xl font-bold">SCALPEL</span>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-primary-foreground max-w-xs">
-              A comprehensive academic platform where interdisciplinary collaboration meets continuous professional
-              development.
+              Advancing surgical excellence through innovation, collaboration, and continuous professional growth.
             </p>
             <div className="flex gap-3">
               <Link
@@ -39,6 +38,22 @@ export function Footer() {
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4 text-slate-900" />
+              </Link>
+              <Link
+                href="https://m.facebook.com/profile.php?id=61586660913489"
+                target="_blank"
+                className="w-9 h-9 rounded-full bg-white hover:bg-slate-200 transition-colors flex items-center justify-center"
+                aria-label="Instagram"
+              >
+                <Facebook className="w-4 h-4 text-slate-900" />
+              </Link>
+              <Link
+                href="https://wa.me/message/5EVJKUTQSZC4J1"
+                target="_blank"
+                className="w-9 h-9 rounded-full bg-white hover:bg-slate-200 transition-colors flex items-center justify-center"
+                aria-label="Instagram"
+              >
+                <MessageCircle className="w-4 h-4 text-slate-900" />
               </Link>
             </div>
           </div>

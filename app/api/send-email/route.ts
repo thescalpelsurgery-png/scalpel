@@ -8,6 +8,8 @@ export async function POST(request: Request) {
 
     let emailContent: { subject: string; html: string } | null = null
 
+    console.log(`[Email API] Request received for type: ${type}, to: ${to}`)
+
     switch (type) {
       case "membershipConfirmation":
         emailContent = emailTemplates.membershipConfirmation(name)
@@ -28,10 +30,12 @@ export async function POST(request: Request) {
         emailContent = emailTemplates.adminBroadcast(subject, message)
         break
       default:
+        console.warn(`[Email API] Invalid email type: ${type}`)
         return NextResponse.json({ error: "Invalid email type" }, { status: 400 })
     }
 
     if (!emailContent) {
+      console.error(`[Email API] Failed to generate content for type: ${type}`)
       return NextResponse.json({ error: "Failed to generate email content" }, { status: 400 })
     }
 
@@ -42,12 +46,13 @@ export async function POST(request: Request) {
     })
 
     if (!success) {
+      console.error(`[Email API] sendEmail returned false for ${to}`)
       return NextResponse.json({ error: "Failed to send email" }, { status: 500 })
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("[Email API] Error:", error)
+    console.error("[Email API] Internal Error:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

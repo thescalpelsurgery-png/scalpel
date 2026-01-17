@@ -4,8 +4,9 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import type { Event, RegistrationField } from "@/lib/types"
+import type { Event, RegistrationField, EventSection } from "@/lib/types"
 import { FormBuilder } from "@/components/admin/events/form-builder"
+import { ContentBuilder } from "@/components/admin/events/content-builder"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -49,9 +50,16 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
     disclaimer: "",
     latitude: 0,
     longitude: 0,
+    is_draft: true,
+    is_summit_2026: false,
+    is_registration_closed: false,
   })
 
+  // Start with capacity disabled by default unless editing an event with capacity
+  const [hasCapacity, setHasCapacity] = useState(false)
+
   const [formFields, setFormFields] = useState<RegistrationField[]>([])
+  const [contentSections, setContentSections] = useState<EventSection[]>([])
 
   useEffect(() => {
     if (event) {
@@ -74,8 +82,24 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         disclaimer: event.disclaimer || "",
         latitude: event.latitude || 0,
         longitude: event.longitude || 0,
+        is_draft: event.is_draft ?? false,
+        is_summit_2026: event.is_summit_2026 ?? false,
+        is_registration_closed: event.is_registration_closed ?? false,
       })
+      setHasCapacity(!!event.capacity && event.capacity > 0)
       setFormFields(event.registration_form_config || [])
+
+      try {
+        if (event.content && event.content.trim().startsWith("[")) {
+          setContentSections(JSON.parse(event.content))
+        } else {
+          setContentSections([])
+        }
+      } catch (e) {
+        console.error("Failed to parse event content", e)
+        setContentSections([])
+      }
+
       setImageType("url")
     } else {
       setFormData({
@@ -97,8 +121,13 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         disclaimer: "",
         latitude: 0,
         longitude: 0,
+        is_draft: true,
+        is_summit_2026: false,
+        is_registration_closed: false,
       })
+      setHasCapacity(false)
       setFormFields([])
+      setContentSections([])
       setImageType("url")
       setUploadFile(null)
     }
@@ -146,7 +175,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
       const data = {
         title: formData.title,
         description: formData.description,
-        content: formData.content || null,
+        content: contentSections.length > 0 ? JSON.stringify(contentSections) : null,
         date: formData.date,
         time: formData.time || null,
         end_date: formData.end_date || null,
@@ -162,6 +191,9 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         disclaimer: formData.disclaimer || null,
         latitude: formData.latitude || null,
         longitude: formData.longitude || null,
+        is_draft: formData.is_draft,
+        is_summit_2026: formData.is_summit_2026,
+        is_registration_closed: formData.is_registration_closed,
         registration_form_config: formFields,
         updated_at: new Date().toISOString(),
       }
@@ -274,29 +306,39 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">Full Content (HTML Supported)</Label>
-            <div className="text-xs text-muted-foreground mb-1">
-              You can paste raw HTML here. It will be rendered as a layout on the event page.
-            </div>
-            <Textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              rows={8}
-              placeholder="<div class='custom-layout'>...</div>"
-              className="font-mono text-sm"
+            <Label>Page Content</Label>
+            <ContentBuilder
+              sections={contentSections}
+              onChange={setContentSections}
+              onUpload={handleImageUpload}
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="capacity">Capacity</Label>
-            <Input
-              id="capacity"
-              type="number"
-              value={formData.capacity}
-              onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-              placeholder="Maximum attendees"
-            />
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="has_capacity"
+                checked={hasCapacity}
+                onCheckedChange={(checked) => {
+                  setHasCapacity(!!checked)
+                  if (!checked) setFormData({ ...formData, capacity: "" })
+                }}
+              />
+              <Label htmlFor="has_capacity">Limit Capacity</Label>
+            </div>
+
+            {hasCapacity && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-1">
+                <Label htmlFor="capacity">Max Attendees</Label>
+                <Input
+                  id="capacity"
+                  type="number"
+                  value={formData.capacity}
+                  onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                  placeholder="Maximum attendees"
+                />
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -450,6 +492,39 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
               />
               <Label htmlFor="is_past" className="cursor-pointer">
                 Mark as Past Event
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_draft"
+                checked={formData.is_draft}
+                onCheckedChange={(checked) => setFormData({ ...formData, is_draft: checked as boolean })}
+              />
+              <Label htmlFor="is_draft" className="cursor-pointer">
+                Draft (Hidden)
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_summit_2026"
+                checked={formData.is_summit_2026}
+                onCheckedChange={(checked) => setFormData({ ...formData, is_summit_2026: checked as boolean })}
+              />
+              <Label className="cursor-pointer" htmlFor="is_summit_2026">
+                Summit 2026 Event
+              </Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_registration_closed"
+                checked={formData.is_registration_closed}
+                onCheckedChange={(checked) => setFormData({ ...formData, is_registration_closed: checked as boolean })}
+              />
+              <Label htmlFor="is_registration_closed" className="cursor-pointer">
+                Registration Closed
               </Label>
             </div>
           </div>

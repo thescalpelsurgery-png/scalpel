@@ -33,7 +33,10 @@ export const metadata: Metadata = {
     },
 }
 
-export default function UserLayout({
+// <CHANGE> Updated metadata for Scalpel surgical society
+// ... imports ...
+
+export default async function UserLayout({
     children,
 }: Readonly<{
     children: React.ReactNode

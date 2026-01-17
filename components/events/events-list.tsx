@@ -13,6 +13,7 @@ export async function EventsList({
     .from("events")
     .select("*")
     .eq("is_past", false)
+    .neq("is_draft", true)
     .order("is_featured", { ascending: false })
     .order("date", { ascending: true })
 

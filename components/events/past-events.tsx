@@ -8,6 +8,7 @@ export async function PastEvents() {
     .from("events")
     .select("*")
     .eq("is_past", true)
+    .neq("is_draft", true)
     .order("date", { ascending: false })
     .limit(4)
 

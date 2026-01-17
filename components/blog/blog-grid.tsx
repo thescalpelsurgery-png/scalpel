@@ -45,7 +45,7 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
     <div ref={sectionRef} className="space-y-12">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
             Latest Articles
           </h2>
           <p className="text-slate-500 mt-2 text-lg">
@@ -85,7 +85,7 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
             </div>
 
             {/* Content */}
-            <div className="p-6 md:p-8 flex flex-col flex-1">
+            <div className="p-5 md:p-8 flex flex-col flex-1">
               <div className="flex items-center gap-3 text-xs font-semibold text-primary uppercase tracking-wider mb-3">
                 {post.read_time && (
                   <span className="flex items-center gap-1.5">
@@ -97,7 +97,7 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
                 <span>{new Date(post.date).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}</span>
               </div>
 
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                 {post.title}
               </h3>
 
@@ -111,7 +111,7 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
                     <User className="w-4 h-4" />
                   </div>
                   <span className="text-sm font-medium text-slate-700 truncate max-w-[120px]">
-                    {typeof post.author === 'object' ? post.author.name : post.author}
+                    {typeof post.author === 'object' && post.author ? post.author.name : post.author || "Unknown"}
                   </span>
                 </div>
 

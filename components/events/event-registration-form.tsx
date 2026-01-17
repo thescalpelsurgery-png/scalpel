@@ -133,7 +133,7 @@ export function EventRegistrationForm({ event }: { event: Event }) {
   return (
     <div className="w-full">
       {event.disclaimer && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-900 leading-relaxed">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-900 leading-relaxed whitespace-pre-wrap">
           <span className="font-bold block mb-1">Important:</span>
           {event.disclaimer}
         </div>

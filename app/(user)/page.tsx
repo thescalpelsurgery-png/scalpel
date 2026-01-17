@@ -6,8 +6,17 @@ import { EventsPreviewSection } from "@/components/home/events-preview-section"
 import { ContactSection } from "@/components/home/contact-section"
 import { NewsletterSection } from "@/components/home/newsletter-section"
 import { BlogPreviewSection } from "@/components/home/blog-preview-section"
+import { createClient } from "@/lib/supabase/server"
+import { SummitPopup } from "@/components/summit-popup"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient()
+  const { data: summitEvent } = await supabase
+    .from("events")
+    .select("*")
+    .eq("is_summit_2026", true)
+    .single()
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -29,11 +38,12 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SummitPopup event={summitEvent} />
       <HeroSection />
-      <PastEventsSlider />
+      <EventsPreviewSection />
       <WhyChooseSection />
       <StatsSection />
-      <EventsPreviewSection />
+      <PastEventsSlider />
       <BlogPreviewSection />
       <ContactSection />
       <NewsletterSection />

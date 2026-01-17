@@ -37,6 +37,9 @@ export interface Event {
   abstract_details?: string
   is_featured: boolean
   is_past: boolean
+  is_draft?: boolean
+  is_summit_2026?: boolean
+  is_registration_closed?: boolean
   created_at: string
   updated_at: string
 }
@@ -83,4 +86,20 @@ export interface AdminUser {
   email: string
   role: "admin" | "super_admin"
   created_at: string
+}
+
+export type EventSectionType =
+  | "table"
+  | "slider"
+  | "image"
+  | "grid"
+  | "leadership"
+  | "text"
+  | "bullets"
+  | "heading";
+
+export interface EventSection {
+  id: string;
+  type: EventSectionType;
+  content: any; // specific structure depends on type
 }

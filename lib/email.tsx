@@ -10,6 +10,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    // Zoho 535 errors can sometimes be caused by SSL handshake issues
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false
+  },
 });
 
 interface EmailOptions {
@@ -26,7 +31,11 @@ export async function sendEmail({ to, subject, html }: EmailOptions): Promise<bo
       return false;
     }
 
-    const fromEmail = process.env.EMAIL_FROM || "noreply@scalpel.org";
+    const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
+    const host = process.env.SMTP_HOST;
+    const port = process.env.SMTP_PORT || '587';
+
+    console.log(`[Email] Attempting to send email via ${host}:${port} as ${process.env.SMTP_USER}`);
 
     const info = await transporter.sendMail({
       from: `"Scalpel" <${fromEmail}>`,

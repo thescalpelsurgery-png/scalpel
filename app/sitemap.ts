@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const { data: events } = await supabase
         .from('events')
         .select('id, updated_at, created_at')
+        .neq('is_draft', true)
 
     const eventRoutes: MetadataRoute.Sitemap = (events || []).map((event) => ({
         url: `${baseUrl}/events/${event.id}`,
