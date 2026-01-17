@@ -91,7 +91,7 @@ export function EventsListClient({ events }: EventsListClientProps) {
         ]
 
         if (endDate && date.getMonth() === endDate.getMonth()) {
-            return `${monthNames[date.getMonth()]} ${date.getDate()}-${endDate.getDate()}, ${date.getFullYear()}`
+            return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
         }
         return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
     }
