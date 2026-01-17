@@ -319,7 +319,7 @@ function SectionEditor({ section, onChange, onUpload }: { section: EventSection,
                                 />
                             </div>
                         </div>
-                        {content.url && <img src={content.url} alt="Preview" className="h-24 w-auto object-cover rounded border mt-2" />}
+                        {content.url && <img src={content.url} alt="Preview" className="w-full aspect-video object-cover rounded border mt-2" />}
                     </div>
                     <div className="space-y-2">
                         <Label>Caption (Optional)</Label>
@@ -339,7 +339,7 @@ function SectionEditor({ section, onChange, onUpload }: { section: EventSection,
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {(content.images || []).map((img: string, idx: number) => (
                             <div key={idx} className="relative group">
-                                <img src={img} alt={`Image ${idx}`} className="w-full h-24 object-cover rounded border" />
+                                <img src={img} alt={`Image ${idx}`} className="w-full aspect-video object-cover rounded border" />
                                 <button
                                     type="button"
                                     onClick={() => {

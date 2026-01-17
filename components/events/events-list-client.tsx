@@ -129,7 +129,7 @@ export function EventsListClient({ events }: EventsListClientProps) {
                             >
                                 <div className="flex flex-col sm:flex-row border border-grey">
                                     {/* Image */}
-                                    <div className="relative w-full sm:w-2/5 lg:w-1/3 aspect-[16/10] sm:aspect-auto sm:min-h-[240px]">
+                                    <div className="relative w-full sm:w-3/5 lg:w-3/5 aspect-video shrink-0">
                                         <Image
                                             src={event.image_url || "/placeholder.svg?height=400&width=600"}
                                             alt={event.title}
@@ -198,7 +198,7 @@ export function EventsListClient({ events }: EventsListClientProps) {
                                 style={{ animationDelay: `${(index + featuredEvents.length) * 100}ms` }}
                             >
                                 {/* Image */}
-                                <div className="relative aspect-[16/10]">
+                                <div className="relative aspect-video">
                                     <Image
                                         src={event.image_url || "/placeholder.svg?height=300&width=500"}
                                         alt={event.title}

@@ -34,7 +34,7 @@ export function EventContentDisplay({ content }: EventContentDisplayProps) {
     }
 
     return (
-        <div className="space-y-12 mx-6">
+        <div className="space-y-8 md:space-y-12 w-full max-w-full overflow-hidden">
             {sections.map(section => (
                 <SectionRenderer key={section.id} section={section} />
             ))}
@@ -49,7 +49,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
         case "heading":
             return (
                 <div className="relative mt-8 mb-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 z-10 relative inline-block">
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 z-10 relative inline-block max-w-full break-words">
                         {content.text}
                         <div className="absolute -bottom-2 left-0 w-1/3 h-1 bg-primary rounded-full opacity-80" />
                     </h2>
@@ -58,7 +58,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
 
         case "text":
             return (
-                <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed text-lg">
+                <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed text-lg break-words">
                     <p>{content.text}</p>
                 </div>
             )
@@ -69,7 +69,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
                     {(content.items || []).map((item: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-3 text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100/50 hover:bg-slate-100 transition-colors">
                             <Circle className="w-3 h-3 text-primary shrink-0 " />
-                            <span className="leading-relaxed">{item}</span>
+                            <span className="leading-relaxed break-words">{item}</span>
                         </li>
                     ))}
                 </ul>
@@ -103,9 +103,9 @@ function SectionRenderer({ section }: { section: EventSection }) {
 
         case "table":
             return (
-                <div className="rounded-3xl border border-slate-200 overflow-hidden my-10 shadow-lg shadow-slate-100/50 bg-white">
-                    <div className="overflow-x-auto custom-scrollbar">
-                        <table className="w-full text-sm text-left border-collapse">
+                <div className="rounded-3xl border border-slate-200 overflow-hidden my-10 shadow-lg shadow-slate-100/50 bg-white w-full max-w-[90vw] md:max-w-full mx-auto">
+                    <div className="overflow-x-auto w-full custom-scrollbar p-1">
+                        <table className="w-full text-sm text-left border-collapse min-w-[600px]">
                             <thead className="text-xs text-slate-700 uppercase bg-slate-50/80 border-b border-slate-200">
                                 <tr>
                                     {(content.columns || []).map((col: string, idx: number) => (
@@ -135,7 +135,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
             return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-8">
                     {(content.images || []).map((img: string, idx: number) => (
-                        <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-slate-100 border border-slate-200">
+                        <div key={idx} className="relative aspect-video rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-slate-100 border border-slate-200">
                             <img
                                 src={img}
                                 alt=""
@@ -167,8 +167,8 @@ function SectionRenderer({ section }: { section: EventSection }) {
                                 )}
                             </div>
 
-                            <div className="space-y-2 mb-4">
-                                <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">{member.name}</h3>
+                            <div className="space-y-2 mb-4 w-full">
+                                <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors break-words">{member.name}</h3>
                                 <p className="text-sm font-medium text-primary/80 uppercase tracking-wide">{member.role}</p>
                             </div>
 
@@ -225,7 +225,7 @@ function EventSlider({ images }: { images: string[] }) {
 
     return (
         <div
-            className="rounded-3xl overflow-hidden shadow-2xl relative group aspect-[16/9] md:aspect-[21/9] bg-slate-900 my-8"
+            className="rounded-3xl overflow-hidden shadow-2xl relative group aspect-video bg-slate-900 my-8"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >

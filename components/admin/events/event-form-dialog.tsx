@@ -394,7 +394,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
                 id="abstract_details"
                 value={formData.abstract_details}
                 onChange={(e) => setFormData({ ...formData, abstract_details: e.target.value })}
-                rows={3}
+                rows={10}
                 placeholder="Enter details about abstract submission requirements..."
               />
             </div>
@@ -422,13 +422,20 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
             </RadioGroup>
 
             {imageType === "url" ? (
-              <Input
-                id="image_url"
-                type="url"
-                value={formData.image_url}
-                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                placeholder="https://..."
-              />
+              <div className="space-y-3">
+                <Input
+                  id="image_url"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  placeholder="https://..."
+                />
+                {formData.image_url && (
+                  <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-slate-200 shadow-sm bg-slate-50">
+                    <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -463,10 +470,14 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
                     </div>
                   )}
                 </div>
-                {event?.image_url && !uploadFile && (
-                  <p className="text-xs text-slate-500">
-                    Current image will be kept if no new file is uploaded.
-                  </p>
+                {(uploadFile || event?.image_url) && (
+                  <div className="mt-2 relative aspect-video w-full overflow-hidden rounded-lg border border-slate-200 shadow-sm bg-slate-50">
+                    <img
+                      src={uploadFile ? URL.createObjectURL(uploadFile) : event?.image_url || ""}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
             )}

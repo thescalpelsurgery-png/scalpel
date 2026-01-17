@@ -5,6 +5,14 @@ import Link from "next/link"
 import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle, Users, Sparkles, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { createClient } from "@/lib/supabase/server"
 import { notFound } from "next/navigation"
 import { EventRegistrationForm } from "@/components/events/event-registration-form"
@@ -81,14 +89,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
   }
 
   return (
-    <div className="min-h-screen relative bg-white">
+    <div className="min-h-screen relative bg-white w-full max-w-[100vw] mx-auto">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* Back Link with enhanced spacing */}
-      <div className="container mx-auto px-4 pt-24 pb-8 relative z-10 ">
+      <div className="container mx-auto px-4 pt-24 pb-8 relative z-10  overflow-x-hidden ">
         <Link
           href="/events"
           className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-primary transition-colors group"
@@ -176,7 +184,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
               </div>
 
               {event.content && (
-                <EventContentDisplay content={event.content} />
+                <div className="bg-white max-w-[90vw] mx-auto">
+                  <EventContentDisplay content={event.content} />
+                </div>
               )}
             </div>
 
@@ -207,14 +217,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                 <div className="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 ring-1 ring-slate-100">
                   <div className="text-center mb-6">
                     <span className="text-slate-500 text-sm font-medium uppercase tracking-wider">Registration</span>
-                    <div className="mt-2 flex items-baseline justify-center gap-1">
+                    <div className="mt-1 flex items-baseline justify-center gap-1">
                       {event.capacity ? (
                         <>
                           <span className="text-3xl font-bold text-slate-900">{spotsLeft}</span>
                           <span className="text-sm text-slate-500 font-medium">/ {event.capacity} spots left</span>
                         </>
                       ) : (
-                        <span className="text-2xl font-bold text-slate-900">Open Registration</span>
+                        <span className="text-sm font-bold text-slate-900"></span>
                       )}
                     </div>
                   </div>
@@ -222,21 +232,26 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                   {event.is_registration_closed ? (
                     <Button
                       disabled
-                      className="w-full bg-slate-100 text-slate-400 rounded-xl cursor-not-allowed"
+                      className="w-full bg-slate-300 text-red rounded-xl cursor-not-allowed"
                       size="lg"
                     >
                       Registration Closed
                     </Button>
                   ) : (
-                    <Button
-                      asChild
-                      className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                      size="lg"
-                    >
-                      <Link href={`/events/${event.id}/register`}>
-                        Register Now
-                      </Link>
-                    </Button>
+                    <div>
+                      <p className="flex text-center items-center justify-center text-sm mb-2"><Calendar className="w-4 h-4 mr-2" />End Data:<span className="w-2"></span><span className="text-sm text-slate-500 font-medium">{event.end_date}</span></p>
+                      <Button
+                        asChild
+                        className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                        size="lg"
+                      >
+
+
+                        <Link href={`/events/${event.id}/register`}>
+                          Register Now
+                        </Link>
+                      </Button>
+                    </div>
                   )}
 
                   <div className="mt-6 pt-6 border-t border-slate-100">
@@ -254,9 +269,26 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                     </div>
 
                     {event.abstract_details && (
-                      <p className="text-slate-600 text-sm mb-6 text-center leading-relaxed">
-                        {event.abstract_details}
-                      </p>
+                      <div className="mb-6">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" className="w-full border-dashed border-slate-300 text-slate-400 hover:text-primary hover:border-primary hover:bg-primary/5 transition-all">
+                              Submission Guidelines
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="w-[95vw] max-w-2xl max-h-[85vh] bg-white overflow-y-auto p-4 md:p-6 rounded-2xl">
+                            <DialogHeader>
+                              <DialogTitle className="text-xl font-bold text-slate-900">Abstract Submission Guidelines</DialogTitle>
+                              <DialogDescription className="text-slate-500">
+                                Please review the following guidelines before submitting your abstract.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="mt-4 whitespace-pre-wrap text-slate-700 text-sm leading-relaxed border-t border-slate-100 pt-4 break-words">
+                              {event.abstract_details}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                     )}
 
                     <Button
