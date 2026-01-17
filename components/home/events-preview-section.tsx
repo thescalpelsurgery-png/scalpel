@@ -39,7 +39,7 @@ export async function EventsPreviewSection() {
     ]
 
     if (endDate && date.getMonth() === endDate.getMonth() && date.getFullYear() === endDate.getFullYear()) {
-      return `${monthNames[date.getMonth()]} ${date.getDate()}-${endDate.getDate()}, ${date.getFullYear()}`
+      return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
     } else if (endDate) {
       return `${monthNames[date.getMonth()]} ${date.getDate()} - ${monthNames[endDate.getMonth()]} ${endDate.getDate()}, ${date.getFullYear()}`
     }
