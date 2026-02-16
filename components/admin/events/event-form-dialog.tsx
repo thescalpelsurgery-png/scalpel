@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Loader2, Upload, X } from "lucide-react"
+import { RichTextEditor } from "@/components/ui/rich-text-editor"
 
 interface EventFormDialogProps {
   open: boolean
@@ -343,11 +344,10 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
 
           <div className="space-y-2">
             <Label htmlFor="disclaimer">Registration Disclaimer / Terms (Appears at top of form)</Label>
-            <Textarea
-              id="disclaimer"
-              value={formData.disclaimer}
-              onChange={(e) => setFormData({ ...formData, disclaimer: e.target.value })}
-              rows={3}
+            <Label htmlFor="disclaimer">Registration Disclaimer / Terms (Appears at top of form)</Label>
+            <RichTextEditor
+              value={formData.disclaimer || ""}
+              onChange={(value) => setFormData({ ...formData, disclaimer: value })}
               placeholder="e.g. By registering, you agree to..."
             />
           </div>
@@ -390,11 +390,10 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="abstract_details">Abstract Guidelines / Details</Label>
-              <Textarea
-                id="abstract_details"
-                value={formData.abstract_details}
-                onChange={(e) => setFormData({ ...formData, abstract_details: e.target.value })}
-                rows={10}
+              <Label htmlFor="abstract_details">Abstract Guidelines / Details</Label>
+              <RichTextEditor
+                value={formData.abstract_details || ""}
+                onChange={(value) => setFormData({ ...formData, abstract_details: value })}
                 placeholder="Enter details about abstract submission requirements..."
               />
             </div>

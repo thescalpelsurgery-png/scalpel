@@ -143,29 +143,15 @@ export const emailTemplates = {
   }),
 
   eventRegistration: (name: string, eventTitle: string, eventDate: string, eventLocation: string) => ({
-    subject: `Registration Confirmed: ${eventTitle}`,
+    subject: `Registration For: ${eventTitle}`,
     html: renderEmail(
-      "Event Registration",
+      `Thank You ${name}!`,
       `
-      <h2 style="font-size: 24px; margin-bottom: 16px;">See you there, ${name}!</h2>
-      <p>Your registration for <span class="accent">${eventTitle}</span>.</p>
-      
+      <h2 style="font-size: 24px; margin-bottom: 16px;">Your registration form has been submitted</h2>  
+      <p>Confirmation details will be shared via email one week before the Summit Day.</p>     
       <div class="card">
         <h3 class="card-title">Event Details</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 8px 0; color: #718096; width: 80px;">Date:</td>
-            <td style="padding: 8px 0; font-weight: 600;">${eventDate}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #718096;">Location:</td>
-            <td style="padding: 8px 0; font-weight: 600;">${eventLocation}</td>
-          </tr>
-        </table>
-      </div>
-
-      <p>We'll send you more details, including the full agenda and prep materials, as the event approaches.</p>
-      
+      </div>      
       <a href="https://scalpel.org/events" class="button">View My Events</a>
       
       <p>Best regards,<br><strong>The Scalpel Team</strong></p>

@@ -133,9 +133,12 @@ export function EventRegistrationForm({ event }: { event: Event }) {
   return (
     <div className="w-full">
       {event.disclaimer && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-900 leading-relaxed whitespace-pre-wrap">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-900 leading-relaxed">
           <span className="font-bold block mb-1">Important:</span>
-          {event.disclaimer}
+          <div
+            className="prose prose-sm prose-amber max-w-none"
+            dangerouslySetInnerHTML={{ __html: event.disclaimer }}
+          />
         </div>
       )}
 

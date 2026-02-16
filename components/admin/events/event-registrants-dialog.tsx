@@ -48,6 +48,7 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
     const [loading, setLoading] = useState(false)
     const [selectedRegistrant, setSelectedRegistrant] = useState<Registrant | null>(null)
     const [fieldLabels, setFieldLabels] = useState<Record<string, string>>({})
+    const [formConfig, setFormConfig] = useState<any[]>([])
 
     // Email Selection State
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -128,9 +129,12 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
             .single()
 
         if (!error && data?.registration_form_config) {
+            const config = data.registration_form_config as any[]
+            setFormConfig(config)
+
             const labels: Record<string, string> = {}
-            if (Array.isArray(data.registration_form_config)) {
-                data.registration_form_config.forEach((field: any) => {
+            if (Array.isArray(config)) {
+                config.forEach((field: any) => {
                     labels[field.id] = field.label
                 })
             }
@@ -162,14 +166,9 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
     const exportToCSV = () => {
         if (registrants.length === 0) return
 
-        // 1. Collect all unique keys from registration_data
-        const dynamicKeys = new Set<string>()
-        registrants.forEach(r => {
-            if (r.registration_data) {
-                Object.keys(r.registration_data).forEach(k => dynamicKeys.add(k))
-            }
-        })
-        const dynamicKeysArray = Array.from(dynamicKeys)
+        // Use formConfig to determine columns
+        // This ensures export matches current form questions
+        const dynamicKeysArray = formConfig.map(field => field.id)
 
         // 2. Build Headers
         const headers = [
@@ -184,7 +183,7 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
             "Special Needs",
             "Registration Date",
 
-            ...dynamicKeysArray.map(key => getLabelForField(key)) // Add dynamic columns
+            ...formConfig.map(field => field.label) // Add dynamic columns labels
         ]
 
         // 3. Build Rows

@@ -24,6 +24,13 @@ import {
     Loader2,
     X
 } from "lucide-react"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 interface ContentBuilderProps {
     sections: EventSection[]
@@ -73,8 +80,8 @@ export function ContentBuilder({ sections, onChange, onUpload }: ContentBuilderP
             case "heading": return { text: "" }
             case "bullets": return { items: [""] }
             case "table": return { columns: ["Column 1", "Column 2"], rows: [["Data 1", "Data 2"]] }
-            case "image": return { url: "", alt: "", caption: "" }
-            case "slider": return { images: [] }
+            case "image": return { url: "", alt: "", caption: "", aspectRatio: "video" }
+            case "slider": return { images: [], aspectRatio: "video" }
             case "grid": return { images: [] }
             case "leadership": return { members: [] }
             default: return {}
@@ -319,14 +326,42 @@ function SectionEditor({ section, onChange, onUpload }: { section: EventSection,
                                 />
                             </div>
                         </div>
-                        {content.url && <img src={content.url} alt="Preview" className="w-full aspect-video object-cover rounded border mt-2" />}
+                        {content.url && (
+                            <img
+                                src={content.url}
+                                alt="Preview"
+                                className={`w-full object-cover rounded border mt-2 ${content.aspectRatio === 'portrait' ? 'aspect-[3/4] max-w-xs' :
+                                        content.aspectRatio === 'square' ? 'aspect-square max-w-xs' :
+                                            'aspect-video'
+                                    }`}
+                            />
+                        )}
                     </div>
-                    <div className="space-y-2">
-                        <Label>Caption (Optional)</Label>
-                        <Input
-                            value={content.caption || ""}
-                            onChange={(e) => onChange({ ...content, caption: e.target.value })}
-                        />
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label>Aspect Ratio</Label>
+                            <Select
+                                value={content.aspectRatio || "video"}
+                                onValueChange={(value) => onChange({ ...content, aspectRatio: value })}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select aspect ratio" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="video">Video (16:9)</SelectItem>
+                                    <SelectItem value="portrait">Portrait (3:4)</SelectItem>
+                                    <SelectItem value="square">Square (1:1)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Caption (Optional)</Label>
+                            <Input
+                                value={content.caption || ""}
+                                onChange={(e) => onChange({ ...content, caption: e.target.value })}
+                            />
+                        </div>
                     </div>
                 </div>
             )
@@ -336,10 +371,37 @@ function SectionEditor({ section, onChange, onUpload }: { section: EventSection,
             return (
                 <div className="space-y-4">
                     <Label>{type === "slider" ? "Slider Images (Max 5)" : "Grid Images"}</Label>
+
+                    {type === "slider" && (
+                        <div className="space-y-2 mb-4">
+                            <Label>Slider Aspect Ratio</Label>
+                            <Select
+                                value={content.aspectRatio || "video"}
+                                onValueChange={(value) => onChange({ ...content, aspectRatio: value })}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select aspect ratio" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="video">Video (16:9)</SelectItem>
+                                    <SelectItem value="portrait">Portrait (3:4)</SelectItem>
+                                    <SelectItem value="square">Square (1:1)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {(content.images || []).map((img: string, idx: number) => (
                             <div key={idx} className="relative group">
-                                <img src={img} alt={`Image ${idx}`} className="w-full aspect-video object-cover rounded border" />
+                                <img
+                                    src={img}
+                                    alt={`Image ${idx}`}
+                                    className={`w-full object-cover rounded border ${type === 'slider' && content.aspectRatio === 'portrait' ? 'aspect-[3/4]' :
+                                            type === 'slider' && content.aspectRatio === 'square' ? 'aspect-square' :
+                                                'aspect-video'
+                                        }`}
+                                />
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -353,7 +415,10 @@ function SectionEditor({ section, onChange, onUpload }: { section: EventSection,
                                 </button>
                             </div>
                         ))}
-                        <div className="h-24 border-2 border-dashed border-slate-200 rounded flex items-center justify-center relative cursor-pointer hover:bg-slate-50">
+                        <div className={`border-2 border-dashed border-slate-200 rounded flex items-center justify-center relative cursor-pointer hover:bg-slate-50 ${type === 'slider' && content.aspectRatio === 'portrait' ? 'aspect-[3/4]' :
+                                type === 'slider' && content.aspectRatio === 'square' ? 'aspect-square' :
+                                    'aspect-video'
+                            }`}>
                             {uploading ? <Loader2 className="w-6 h-6 animate-spin text-slate-400" /> : <Plus className="w-6 h-6 text-slate-400" />}
                             <input
                                 type="file"

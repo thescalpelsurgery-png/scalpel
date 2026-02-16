@@ -283,9 +283,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                                 Please review the following guidelines before submitting your abstract.
                               </DialogDescription>
                             </DialogHeader>
-                            <div className="mt-4 whitespace-pre-wrap text-slate-700 text-sm leading-relaxed border-t border-slate-100 pt-4 break-words">
-                              {event.abstract_details}
-                            </div>
+                            <div
+                              className="mt-4 text-slate-700 text-sm leading-relaxed border-t border-slate-100 pt-4 break-words prose prose-sm max-w-none"
+                              dangerouslySetInnerHTML={{ __html: event.abstract_details }}
+                            />
                           </DialogContent>
                         </Dialog>
                       </div>

@@ -76,9 +76,16 @@ function SectionRenderer({ section }: { section: EventSection }) {
             )
 
         case "image":
+            // Default to video (16:9) if not specified
+            const imageAspectClass = content.aspectRatio === "portrait"
+                ? "aspect-[3/4] max-w-lg mx-auto"
+                : content.aspectRatio === "square"
+                    ? "aspect-square max-w-xl mx-auto"
+                    : "aspect-video w-full"; // default 16:9
+
             return (
-                <div className="rounded-2xl overflow-hidden shadow-lg shadow-slate-200/50 my-8 group bg-slate-100">
-                    <div className="relative aspect-video w-full overflow-hidden">
+                <div className={`rounded-2xl overflow-hidden shadow-lg shadow-slate-200/50 my-8 group bg-slate-100 ${content.aspectRatio !== 'portrait' && content.aspectRatio !== 'square' ? 'w-full' : ''}`}>
+                    <div className={`relative ${imageAspectClass} overflow-hidden`}>
                         {content.url ? (
                             <img
                                 src={content.url}
@@ -148,7 +155,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
             )
 
         case "slider":
-            return <EventSlider images={content.images || []} />
+            return <EventSlider images={content.images || []} aspectRatio={content.aspectRatio} />
 
         case "leadership":
             return (
@@ -199,7 +206,7 @@ function SectionRenderer({ section }: { section: EventSection }) {
     }
 }
 
-function EventSlider({ images }: { images: string[] }) {
+function EventSlider({ images, aspectRatio = "video" }: { images: string[], aspectRatio?: "video" | "portrait" | "square" }) {
     const [current, setCurrent] = useState(0)
     const [isPaused, setIsPaused] = useState(false)
     const timerRef = useRef<NodeJS.Timeout | null>(null)
@@ -223,9 +230,16 @@ function EventSlider({ images }: { images: string[] }) {
 
     if (!images.length) return null
 
+    // Determine config based on aspect ratio
+    const aspectClass = aspectRatio === "portrait"
+        ? "aspect-[3/4] max-w-lg mx-auto"
+        : aspectRatio === "square"
+            ? "aspect-square max-w-xl mx-auto"
+            : "aspect-video w-full"; // default 16:9
+
     return (
         <div
-            className="rounded-3xl overflow-hidden shadow-2xl relative group aspect-video bg-slate-900 my-8"
+            className={`rounded-3xl overflow-hidden shadow-2xl relative group bg-slate-900 my-8 ${aspectClass}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >

@@ -19,9 +19,8 @@ export async function EventsPreviewSection() {
     return null
   }
 
-  const formatDate = (dateStr: string, endDateStr?: string) => {
+  const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
-    const endDate = endDateStr ? new Date(endDateStr) : null
 
     const monthNames = [
       "January",
@@ -37,12 +36,6 @@ export async function EventsPreviewSection() {
       "November",
       "December",
     ]
-
-    if (endDate && date.getMonth() === endDate.getMonth() && date.getFullYear() === endDate.getFullYear()) {
-      return `${monthNames[date.getMonth()]} ${date.getDate()}-${endDate.getDate()}, ${date.getFullYear()}`
-    } else if (endDate) {
-      return `${monthNames[date.getMonth()]} ${date.getDate()} - ${monthNames[endDate.getMonth()]} ${endDate.getDate()}, ${date.getFullYear()}`
-    }
 
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
   }
@@ -101,7 +94,7 @@ export async function EventsPreviewSection() {
                 <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-slate-600">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
-                    <span className="truncate">{formatDate(event.date, event.end_date)}</span>
+                    <span className="truncate">{formatDate(event.date)}</span>
                   </div>
                   {event.time && (
                     <div className="flex items-center gap-2">
