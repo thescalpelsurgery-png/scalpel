@@ -37,15 +37,6 @@ export async function EventsPreviewSection() {
       "December",
     ]
 
-<<<<<<< HEAD
-=======
-    if (endDate && date.getMonth() === endDate.getMonth() && date.getFullYear() === endDate.getFullYear()) {
-      return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-    } else if (endDate) {
-      return `${monthNames[date.getMonth()]} ${date.getDate()} - ${monthNames[endDate.getMonth()]} ${endDate.getDate()}, ${date.getFullYear()}`
-    }
-
->>>>>>> dda00953a820d62a4316c59b62f1f03d145dab6a
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
   }
 
