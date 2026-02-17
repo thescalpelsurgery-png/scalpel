@@ -35,6 +35,7 @@ export interface Event {
   registration_form_config?: any // Using any for now, or define specific schema
   abstract_submission_link?: string
   abstract_details?: string
+  news_updates?: string
   is_featured: boolean
   is_past: boolean
   is_draft?: boolean

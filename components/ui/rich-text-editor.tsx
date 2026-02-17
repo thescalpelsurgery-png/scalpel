@@ -23,20 +23,21 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
     const editor = useEditor({
+        immediatelyRender: false,
         extensions: [
             StarterKit,
             Underline,
             LinkExtension.configure({
                 openOnClick: false,
                 HTMLAttributes: {
-                    class: 'text-primary underline cursor-pointer',
+                    class: 'text-primary underline cursor-pointer bg-white',
                 },
             }),
         ],
         content: value,
         editorProps: {
             attributes: {
-                class: 'min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 prose prose-sm max-w-none',
+                class: 'min-h-[150px] w-full rounded-md border border-input bg-white px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 prose prose-sm max-w-none',
             },
         },
         onUpdate: ({ editor }) => {
@@ -66,7 +67,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
 
     return (
         <div className="border rounded-md overflow-hidden bg-white">
-            <div className="border-b bg-slate-50 p-1 flex flex-wrap gap-1">
+            <div className="border-b bg-white p-1 flex flex-wrap gap-1">
                 <Button
                     variant={editor.isActive('bold') ? "secondary" : "ghost"}
                     size="icon"
@@ -100,7 +101,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
                     <UnderlineIcon className="h-4 w-4" />
                 </Button>
 
-                <div className="w-px h-6 bg-slate-200 mx-1 self-center" />
+                <div className="w-px h-6 bg-white-200 mx-1 self-center" />
 
                 <Button
                     variant={editor.isActive('bulletList') ? "secondary" : "ghost"}
@@ -124,7 +125,7 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
                     <ListOrdered className="h-4 w-4" />
                 </Button>
 
-                <div className="w-px h-6 bg-slate-200 mx-1 self-center" />
+                <div className="w-px h-6 bg-white-200 mx-1 self-center" />
 
                 <Button
                     variant={editor.isActive('link') ? "secondary" : "ghost"}

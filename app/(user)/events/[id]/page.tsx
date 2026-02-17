@@ -188,6 +188,19 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                   <EventContentDisplay content={event.content} />
                 </div>
               )}
+
+              {event.news_updates && (
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 shadow-sm border border-amber-200/60">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-1.5 h-8 bg-amber-500 rounded-full" />
+                    <h2 className="text-2xl font-bold text-slate-900">News & Updates</h2>
+                  </div>
+                  <div
+                    className="text-slate-700 leading-relaxed prose prose-sm max-w-none prose-a:text-primary prose-a:underline prose-a:font-medium hover:prose-a:text-primary/80 prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-amber-500"
+                    dangerouslySetInnerHTML={{ __html: event.news_updates }}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Map Section */}

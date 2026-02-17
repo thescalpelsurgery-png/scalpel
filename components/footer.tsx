@@ -94,7 +94,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 md:gap-3 text-xs md:text-sm">
                 <Mail className="w-4 h-4 shrink-0 text-secondary" />
-                <span className="text-primary-foreground">support@scalpelsurgery.org</span>
+                <span className="text-primary-foreground">admin@scalpelsurgery.org</span>
               </li>
             </ul>
           </div>

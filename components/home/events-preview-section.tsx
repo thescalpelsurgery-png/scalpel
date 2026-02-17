@@ -86,25 +86,35 @@ export async function EventsPreviewSection() {
               </div>
 
               {/* Content */}
-              <div className="p-4 md:p-6 shadow-xl text-card bg-card">
-                <h3 className="text-base md:text-xl font-semibold text-slate-900 mb-3 md:mb-4 group-hover:text-primary transition-colors line-clamp-2">
-                  {event.title}
-                </h3>
+              <div className="relative p-4 md:p-6 overflow-hidden">
+                {/* Background image with overlay */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${event.image_url || "/placeholder.svg?height=300&width=500"})` }}
+                />
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
-                <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-slate-600">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
-                    <span className="truncate">{formatDate(event.date)}</span>
-                  </div>
-                  {event.time && (
+                {/* Content on top */}
+                <div className="relative z-10">
+                  <h3 className="text-base md:text-xl font-semibold text-white mb-3 md:mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                    {event.title}
+                  </h3>
+
+                  <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-white/80">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
-                      <span className="truncate">{event.time}</span>
+                      <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
+                      <span className="truncate">{formatDate(event.date)}</span>
                     </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
-                    <span className="truncate">{event.location}</span>
+                    {event.time && (
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
+                        <span className="truncate">{event.time}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary shrink-0" />
+                      <span className="truncate">{event.location}</span>
+                    </div>
                   </div>
                 </div>
               </div>

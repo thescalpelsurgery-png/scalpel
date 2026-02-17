@@ -38,7 +38,7 @@ export function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "contactRequest",
-          to: "support@scalpelsurgery.org",
+          to: "admin@scalpelsurgery.org",
           data: data,
         }),
       })
@@ -111,7 +111,7 @@ export function ContactSection() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-white text-sm md:text-base">Email Address</h4>
-                  <p className="text-slate-400 text-sm">support@scalpelsurgery.org</p>
+                  <p className="text-slate-400 text-sm">admin@scalpelsurgery.org</p>
                 </div>
               </div>
             </div>

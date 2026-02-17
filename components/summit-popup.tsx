@@ -30,18 +30,18 @@ export function SummitPopup({ event }: { event: Event | null }) {
                 <DialogTitle className="sr-only">{event.title}</DialogTitle>
 
                 {/* Main Container with Glassmorphism */}
-                <div className="relative w-full flex flex-col sm:flex-row bg-[#0b0f19]/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+                <div className="relative w-full flex flex-col sm:flex-row bg-primary/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
 
                     {/* Left Side: Content & Title */}
                     <div className="flex-1 p-6 sm:p-10 flex flex-col justify-center relative z-10 order-2 sm:order-1 min-h-[300px]">
                         {/* Decorative Elements */}
                         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
-                            <div className="absolute top-[-50%] left-[-20%] w-[300px] h-[300px] rounded-full bg-blue-500 blur-[80px]" />
-                            <div className="absolute bottom-[-20%] right-[20%] w-[200px] h-[200px] rounded-full bg-purple-500 blur-[60px]" />
+                            <div className="absolute top-[-50%] left-[-20%] w-[300px] h-[300px] rounded-full bg-primary blur-[80px]" />
+                            <div className="absolute bottom-[-20%] right-[20%] w-[200px] h-[200px] rounded-full bg-emerald-800 blur-[60px]" />
                         </div>
 
                         <div className="relative">
-                            <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] sm:text-xs font-medium tracking-wider mb-3 sm:mb-4 border border-blue-500/20">
+                            <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-[10px] sm:text-xs font-medium tracking-wider mb-3 sm:mb-4 border border-white/20">
                                 UPCOMING SUMMIT
                             </span>
 
@@ -78,8 +78,8 @@ export function SummitPopup({ event }: { event: Event | null }) {
                         {/* Info Area - Below Image */}
                         <div className="p-5 sm:p-8 space-y-4 flex flex-col justify-center flex-1 bg-gradient-to-b from-transparent to-black/20">
                             <div className="flex items-start gap-4 text-white/90">
-                                <div className="p-2 bg-blue-500/10 rounded-lg shrink-0 border border-blue-500/20">
-                                    <Calendar className="w-5 h-5 text-blue-400" />
+                                <div className="p-2 bg-white/10 rounded-lg shrink-0 border border-white/20">
+                                    <Calendar className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
                                     <p className="font-semibold text-sm text-white">Date & Time</p>
@@ -95,8 +95,8 @@ export function SummitPopup({ event }: { event: Event | null }) {
                             </div>
 
                             <div className="flex items-start gap-4 text-white/90">
-                                <div className="p-2 bg-purple-500/10 rounded-lg shrink-0 border border-purple-500/20">
-                                    <MapPin className="w-5 h-5 text-purple-400" />
+                                <div className="p-2 bg-white/10 rounded-lg shrink-0 border border-white/20">
+                                    <MapPin className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
                                     <p className="font-semibold text-sm text-white">Location</p>

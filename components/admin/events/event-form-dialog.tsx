@@ -48,6 +48,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
     is_past: false,
     abstract_submission_link: "",
     abstract_details: "",
+    news_updates: "",
     disclaimer: "",
     latitude: 0,
     longitude: 0,
@@ -80,6 +81,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         is_past: event.is_past,
         abstract_submission_link: event.abstract_submission_link || "",
         abstract_details: event.abstract_details || "",
+        news_updates: event.news_updates || "",
         disclaimer: event.disclaimer || "",
         latitude: event.latitude || 0,
         longitude: event.longitude || 0,
@@ -119,6 +121,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         is_past: false,
         abstract_submission_link: "",
         abstract_details: "",
+        news_updates: "",
         disclaimer: "",
         latitude: 0,
         longitude: 0,
@@ -189,6 +192,7 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
         is_past: formData.is_past,
         abstract_submission_link: formData.abstract_submission_link || null,
         abstract_details: formData.abstract_details || null,
+        news_updates: formData.news_updates || null,
         disclaimer: formData.disclaimer || null,
         latitude: formData.latitude || null,
         longitude: formData.longitude || null,
@@ -344,7 +348,6 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
 
           <div className="space-y-2">
             <Label htmlFor="disclaimer">Registration Disclaimer / Terms (Appears at top of form)</Label>
-            <Label htmlFor="disclaimer">Registration Disclaimer / Terms (Appears at top of form)</Label>
             <RichTextEditor
               value={formData.disclaimer || ""}
               onChange={(value) => setFormData({ ...formData, disclaimer: value })}
@@ -390,13 +393,22 @@ export function EventFormDialog({ open, event }: EventFormDialogProps) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="abstract_details">Abstract Guidelines / Details</Label>
-              <Label htmlFor="abstract_details">Abstract Guidelines / Details</Label>
               <RichTextEditor
                 value={formData.abstract_details || ""}
                 onChange={(value) => setFormData({ ...formData, abstract_details: value })}
                 placeholder="Enter details about abstract submission requirements..."
               />
             </div>
+          </div>
+
+          <div className="space-y-2 pt-2 border-t mt-4">
+            <h4 className="font-semibold text-sm">News & Updates (Optional)</h4>
+            <p className="text-xs text-slate-500">Add announcements, updates, or important links for this event. Supports rich text formatting, bullet points, and links.</p>
+            <RichTextEditor
+              value={formData.news_updates || ""}
+              onChange={(value) => setFormData({ ...formData, news_updates: value })}
+              placeholder="e.g. New speaker announced! Click here for..."
+            />
           </div>
 
           <div className="border-t pt-4 mt-4">
