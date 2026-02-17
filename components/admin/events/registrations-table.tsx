@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { MoreHorizontal, Eye, Trash2, Loader2, Mail, Phone, Building } from "lucide-react"
+import { MoreHorizontal, Eye, Trash2, Loader2, Mail, Phone, Building, BookOpen } from "lucide-react"
 
 interface Registration {
   id: string
@@ -92,6 +92,7 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
                 <TableHead>Email</TableHead>
                 <TableHead className="hidden md:table-cell">Phone</TableHead>
                 <TableHead className="hidden lg:table-cell">Organization</TableHead>
+                <TableHead>Files</TableHead>
                 <TableHead>Registered</TableHead>
                 <TableHead className="w-12"></TableHead>
               </TableRow>
@@ -105,6 +106,27 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
                   <TableCell>{registration.email}</TableCell>
                   <TableCell className="hidden md:table-cell">{registration.phone || "-"}</TableCell>
                   <TableCell className="hidden lg:table-cell">{registration.organization || "-"}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col gap-1">
+                      {registration.registration_data && Object.entries(registration.registration_data).map(([key, value]) => {
+                        if (typeof value === "string" && value.toLowerCase().includes("http")) {
+                          return (
+                            <a
+                              key={key}
+                              href={value}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline text-xs flex items-center gap-1"
+                            >
+                              <BookOpen className="w-3 h-3" />
+                              {key.replace(/_/g, " ")}
+                            </a>
+                          )
+                        }
+                        return null
+                      })}
+                    </div>
+                  </TableCell>
                   <TableCell>{new Date(registration.created_at).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -125,26 +147,8 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
                           View Details
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        {(() => {
-                          const fileUrl = registration.registration_data
-                            ? Object.values(registration.registration_data).find((v): v is string => typeof v === 'string' && v.startsWith('http'))
-                            : null
 
-                          if (fileUrl) {
-                            return (
-                              <>
-                                <DropdownMenuItem asChild>
-                                  <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer w-full flex items-center">
-                                    <Eye className="w-4 h-4 mr-2" />
-                                    View File
-                                  </a>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                              </>
-                            )
-                          }
-                          return null
-                        })()}
+
                         <DropdownMenuItem onClick={() => deleteRegistration(registration.id)} className="text-red-600">
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete
@@ -206,6 +210,35 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
                 <div>
                   <p className="text-sm text-slate-600 mb-1">Special Requirements</p>
                   <p className="text-slate-900">{selectedRegistration.special_requirements}</p>
+                </div>
+              )}
+              {selectedRegistration.registration_data && Object.keys(selectedRegistration.registration_data).length > 0 && (
+                <div>
+                  <p className="text-sm text-slate-600 mb-2">Custom Fields</p>
+                  <div className="bg-slate-50 rounded-lg p-3 space-y-3">
+                    {Object.entries(selectedRegistration.registration_data).map(([key, value]) => (
+                      <div key={key}>
+                        <p className="text-xs font-semibold text-slate-500 uppercase mb-1">
+                          {key.replace(/_/g, " ")}
+                        </p>
+                        {typeof value === "string" && value.toLowerCase().includes("http") ? (
+                          <a
+                            href={value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline text-sm flex items-center gap-1"
+                          >
+                            <BookOpen className="w-3 h-3" />
+                            View File
+                          </a>
+                        ) : (
+                          <p className="text-sm text-slate-900 break-words">
+                            {typeof value === "object" ? JSON.stringify(value) : String(value)}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

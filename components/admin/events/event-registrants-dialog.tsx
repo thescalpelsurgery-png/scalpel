@@ -12,7 +12,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Download, Loader2, Users, Mail, Phone, Building2, Stethoscope, Send, CheckSquare, Square } from "lucide-react"
+import { Download, Loader2, Users, Mail, Phone, Building2, Stethoscope, Send, CheckSquare, Square, BookOpen } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ComposeEmailDialog } from "./compose-email-dialog"
 
@@ -286,6 +286,7 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
                                         <TableHead className="font-bold">Name</TableHead>
                                         <TableHead className="font-bold">Contact</TableHead>
                                         <TableHead className="font-bold">Custom Data</TableHead>
+                                        <TableHead className="font-bold">Files</TableHead>
                                         <TableHead className="font-bold">Registered</TableHead>
                                         <TableHead className="font-bold text-right">Actions</TableHead>
                                     </TableRow>
@@ -331,6 +332,27 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
                                                     ) : (
                                                         <span className="text-slate-400">N/A</span>
                                                     )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex flex-col gap-1">
+                                                    {registrant.registration_data && Object.entries(registrant.registration_data).map(([key, value]) => {
+                                                        if (typeof value === "string" && value.toLowerCase().includes("http")) {
+                                                            return (
+                                                                <a
+                                                                    key={key}
+                                                                    href={value}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-blue-600 hover:underline text-xs flex items-center gap-1"
+                                                                >
+                                                                    <BookOpen className="w-3 h-3" />
+                                                                    {key.replace(/_/g, " ")}
+                                                                </a>
+                                                            )
+                                                        }
+                                                        return null
+                                                    })}
                                                 </div>
                                             </TableCell>
                                             <TableCell>
