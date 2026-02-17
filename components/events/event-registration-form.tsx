@@ -124,7 +124,7 @@ export function EventRegistrationForm({ event }: { event: Event }) {
           Your registration form has been submitted. Confirmation details will be shared via email one week before the Summit Day.
         </p>
         <Button asChild className="min-w-[200px]">
-          <a href={`/events`}>Back to Event</a>
+          <a href={`/events`}>Back to Events</a>
         </Button>
       </div>
     )

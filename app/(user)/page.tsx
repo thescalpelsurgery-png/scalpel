@@ -26,7 +26,7 @@ export default async function HomePage() {
     description: "Join a comprehensive academic platform where interdisciplinary collaboration meets continuous professional development. Elevate your surgical expertise with evidence-based programs.",
     sameAs: [
       // Add social media links if known
-      "https://www.facebook.com/scalpel",
+      "https://www.facebook.com/share/18AZ7qCCgA/?mibextid=wwXIfr",
       "https://www.instagram.com/scalpel",
       "https://www.linkedin.com/company/scalpel"
     ]

@@ -252,7 +252,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
                     </Button>
                   ) : (
                     <div>
-                      <p className="flex text-center items-center justify-center text-sm mb-2"><Calendar className="w-4 h-4 mr-2" />End Data:<span className="w-2"></span><span className="text-sm text-slate-500 font-medium">{event.end_date}</span></p>
+                      <p className="flex text-center items-center justify-center text-sm mb-2"><Calendar className="w-4 h-4 mr-2" />End Date:<span className="w-2"></span><span className="text-sm text-slate-500 font-medium">{event.end_date}</span></p>
                       <Button
                         asChild
                         className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"

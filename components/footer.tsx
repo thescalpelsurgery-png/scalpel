@@ -40,10 +40,10 @@ export function Footer() {
                 <Instagram className="w-4 h-4 text-slate-900" />
               </Link>
               <Link
-                href="https://m.facebook.com/profile.php?id=61586660913489"
+                href="https://www.facebook.com/share/18AZ7qCCgA/?mibextid=wwXIfr"
                 target="_blank"
                 className="w-9 h-9 rounded-full bg-white hover:bg-slate-200 transition-colors flex items-center justify-center"
-                aria-label="Instagram"
+                aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4 text-slate-900" />
               </Link>

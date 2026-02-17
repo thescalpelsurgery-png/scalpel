@@ -26,6 +26,7 @@ interface Registration {
   special_requirements?: string
   status: string
   created_at: string
+  registration_data?: any
 }
 
 interface RegistrationsTableProps {
@@ -124,6 +125,26 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
                           View Details
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
+                        {(() => {
+                          const fileUrl = registration.registration_data
+                            ? Object.values(registration.registration_data).find((v): v is string => typeof v === 'string' && v.startsWith('http'))
+                            : null
+
+                          if (fileUrl) {
+                            return (
+                              <>
+                                <DropdownMenuItem asChild>
+                                  <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer w-full flex items-center">
+                                    <Eye className="w-4 h-4 mr-2" />
+                                    View File
+                                  </a>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                              </>
+                            )
+                          }
+                          return null
+                        })()}
                         <DropdownMenuItem onClick={() => deleteRegistration(registration.id)} className="text-red-600">
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete
@@ -136,10 +157,11 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
             </TableBody>
           </Table>
         </div>
-      </div>
+      </div >
 
       {/* Details Dialog */}
-      <Dialog open={!!selectedRegistration} onOpenChange={() => setSelectedRegistration(null)}>
+      < Dialog open={!!selectedRegistration
+      } onOpenChange={() => setSelectedRegistration(null)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Registration Details</DialogTitle>
@@ -189,7 +211,7 @@ export function RegistrationsTable({ registrations, eventId }: RegistrationsTabl
             </div>
           )}
         </DialogContent>
-      </Dialog>
+      </Dialog >
     </>
   )
 }
