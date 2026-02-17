@@ -119,12 +119,12 @@ export function EventRegistrationForm({ event }: { event: Event }) {
         <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
           <CheckCircle className="w-10 h-10 text-green-600" />
         </div>
-        <h3 className="text-2xl font-bold text-slate-900 mb-3">Registration Confirmed!</h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-3">Thank You!</h3>
         <p className="text-slate-600 text-lg mb-8 max-w-md mx-auto">
-          You have successfully registered for <strong>{event.title}</strong>. We look forward to seeing you there.
+          Your registration form has been submitted. Confirmation details will be shared via email one week before the Summit Day.
         </p>
         <Button asChild className="min-w-[200px]">
-          <a href={`/events/${event.id}`}>Back to Event</a>
+          <a href={`/events`}>Back to Event</a>
         </Button>
       </div>
     )

@@ -175,12 +175,6 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
             "First Name",
             "Last Name",
             "Email",
-            "Phone",
-            "Institution",
-            "Specialty",
-            "Experience Level",
-            "Dietary Requirements",
-            "Special Needs",
             "Registration Date",
 
             ...formConfig.map(field => field.label) // Add dynamic columns labels
@@ -192,12 +186,6 @@ export function EventRegistrantsDialog({ eventId, eventTitle, open, onOpenChange
                 r.first_name,
                 r.last_name,
                 r.email,
-                r.phone || "",
-                r.institution || "",
-                r.specialty || "",
-                r.experience_level || "",
-                r.dietary_requirements || "",
-                r.special_needs || "",
                 new Date(r.created_at).toLocaleString(),
             ]
 

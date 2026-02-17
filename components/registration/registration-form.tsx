@@ -54,7 +54,7 @@ export function RegistrationForm() {
         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4 sm:mb-6">
           <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">Registration Successful!</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">Thank You!</h2>
         <p className="text-slate-600 mb-4 sm:mb-6 text-sm sm:text-base">
           {
             "Welcome to Scalpel! We've sent a confirmation email to your inbox. Please verify your email to activate your account."
